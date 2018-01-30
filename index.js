@@ -1,7 +1,7 @@
 ﻿var dataIsChanging = 0;
 
-d3.csv("unemploymentRate.csv", function(data) {
-    data.forEach(function(d) {
+d3.csv("unemploymentRate.csv", function (data) {
+    data.forEach(function (d) {
         d.x = +d.x;
         d.year = +d.year;
         d.total = +d.total;
@@ -15,19 +15,36 @@ d3.csv("unemploymentRate.csv", function(data) {
     });
     //console.log(data);
 
-    var minYear = d3.extent(data, function(it) { return it.year })[0],
-        maxYear = d3.extent(data, function(it) { return it.year })[1];
-    var minTotal = d3.extent(data, function(it) { return it.total })[0];
-    var maxTotal = d3.extent(data, function(it) { return it.total })[1];
-    var minX = d3.min(data, function(d) { return d.x }),
-        maxX = d3.max(data, function(d) { return d.x }),
+    var minYear = d3.extent(data, function (it) {
+            return it.year
+        })[0],
+        maxYear = d3.extent(data, function (it) {
+            return it.year
+        })[1];
+    var minTotal = d3.extent(data, function (it) {
+        return it.total
+    })[0];
+    var maxTotal = d3.extent(data, function (it) {
+        return it.total
+    })[1];
+    var minX = d3.min(data, function (d) {
+            return d.x
+        }),
+        maxX = d3.max(data, function (d) {
+            return d.x
+        }),
         minY = 0,
         maxY = 7;
 
     //console.log(minYear);
 
 
-    var linechartMargin = { top: 30, right: 50, bottom: 70, left: 50 };
+    var linechartMargin = {
+        top: 30,
+        right: 50,
+        bottom: 70,
+        left: 50
+    };
     var linechartWidth = 800 - linechartMargin.left - linechartMargin.right;
     var linechartHeight = 600 - linechartMargin.top - linechartMargin.bottom;
     var infoDivWidth = 300;
@@ -45,9 +62,9 @@ d3.csv("unemploymentRate.csv", function(data) {
         .domain([minY, maxY]);
 
     // --- 創造畫布
-    var linechartsvg = d3.select('.chart1')
-        .append('svg')
-        .attr('id', 's');
+    var linechartsvg = d3.select('#lineChartSvg');
+    // .append('svg')
+    // .attr('id', 'lineChartSvg');
 
     linechartsvg.data(data)
         .attr({
@@ -65,8 +82,10 @@ d3.csv("unemploymentRate.csv", function(data) {
     var lines = [8]; //8種教育程度的8種折線
     for (var i = 0; i < 8; ++i) {
         lines[i] = d3.svg.line()
-            .x(function(d) { return scaleX(d.x); })
-            .y(function(d) {
+            .x(function (d) {
+                return scaleX(d.x);
+            })
+            .y(function (d) {
                 if (i == 0) return scaleY(d.total);
                 else if (i == 1) return scaleY(d.primary);
                 else if (i == 2) return scaleY(d.junior);
@@ -86,13 +105,17 @@ d3.csv("unemploymentRate.csv", function(data) {
         .scale(scaleX2)
         .orient("bottom") //用axis.orient 來定義座標文字的上下左右位置
         .ticks(gridInterval)
-        .tickFormat(function(d) { return d + '年'; });
+        .tickFormat(function (d) {
+            return d + '年';
+        });
 
     var axisY = d3.svg.axis()
         .scale(scaleY)
         .orient("left") //用axis.orient 來定義座標文字的上下左右位置
         .ticks(gridInterval)
-        .tickFormat(function(d) { return d + '%'; });
+        .tickFormat(function (d) {
+            return d + '%';
+        });
 
     var axisXGrid = d3.svg.axis()
         .scale(scaleX)
@@ -109,14 +132,14 @@ d3.csv("unemploymentRate.csv", function(data) {
         .tickSize(-linechartWidth, 0);
 
     //繪出8條折線
-    var lineColor1 = '#1f77b4';
-    var lineColor2 = '#ff7f0e';
-    var lineColor3 = '#2ca02c';
-    var lineColor4 = '#d62728';
-    var lineColor5 = '#9467bd';
-    var lineColor6 = '#8c564b';
-    var lineColor7 = '#e377c2';
-    var lineColor8 = '#17becf';
+    var lineColor1 = 'red';
+    var lineColor2 = 'orange';
+    var lineColor3 = 'yellow';
+    var lineColor4 = 'green';
+    var lineColor5 = 'blue';
+    var lineColor6 = 'purple';
+    var lineColor7 = 'brown';
+    var lineColor8 = 'black';
 
     // //標明線段
     // var beginX = linechartMargin.left,
@@ -186,17 +209,17 @@ d3.csv("unemploymentRate.csv", function(data) {
             .attr("class", "historylines" + i)
             .attr({
                 'd': lines[i](data),
-                'stroke': function(d) {
+                'stroke': function (d) {
                     if (i == 0) return lineColor1;
-                    if (i == 1) return lineColor2;
-                    if (i == 2) return lineColor3;
-                    if (i == 3) return lineColor4;
-                    if (i == 4) return lineColor5;
-                    if (i == 5) return lineColor6;
-                    if (i == 6) return lineColor7;
-                    if (i == 7) return lineColor8;
+                    else if (i == 1) return lineColor2;
+                    else if (i == 2) return lineColor3;
+                    else if (i == 3) return lineColor4;
+                    else if (i == 4) return lineColor5;
+                    else if (i == 5) return lineColor6;
+                    else if (i == 6) return lineColor7;
+                    else if (i == 7) return lineColor8;
                 },
-                'transform': 'translate(' + (linechartMargin.left) + ', ' + (linechartMargin.top) + ')', //用translate挑整axisX,axisY的位置
+                'transform': 'translate(' + (linechartMargin.left + infoDivWidth) + ', ' + (linechartMargin.top) + ')', //用translate挑整axisX,axisY的位置
                 'fill': 'none'
             });
     }
@@ -207,18 +230,18 @@ d3.csv("unemploymentRate.csv", function(data) {
         .call(axisXGrid)
         .attr({
             'fill': 'none',
-            'stroke': 'rgba(170,170,170,0.5)',
+            'stroke': 'rgba(170,170,170,0.8)',
             // 'stroke': 'rgba(0,0,0,.1)',
-            'transform': 'translate(' + (linechartMargin.left) + ', ' + (linechartHeight + linechartMargin.top) + ')'
+            'transform': 'translate(' + (linechartMargin.left + infoDivWidth) + ', ' + (linechartHeight + linechartMargin.top) + ')'
         });
     //繪出Y軸標格
     linechartsvg.append('g')
         .call(axisYGrid)
         .attr({
             'fill': 'none',
-            'stroke': 'rgba(170,170,170,0.5)',
+            'stroke': 'rgba(170,170,170,0.8)',
             // 'stroke': 'rgba(0,0,0,.1)',
-            'transform': 'translate(' + (linechartMargin.left) + ',' + (linechartMargin.top) + ')'
+            'transform': 'translate(' + (linechartMargin.left + infoDivWidth) + ',' + (linechartMargin.top) + ')'
         });
     //繪出X軸
     linechartsvg.append('g')
@@ -227,7 +250,7 @@ d3.csv("unemploymentRate.csv", function(data) {
             'class': 'axisX',
             'fill': 'none',
             'stroke': 'rgba(170,170,170,1)',
-            'transform': 'translate(' + (linechartMargin.left) + ', ' + (linechartHeight + linechartMargin.top) + ')' //用translate挑整axisX,axisY的位置
+            'transform': 'translate(' + (linechartMargin.left + infoDivWidth) + ', ' + (linechartHeight + linechartMargin.top) + ')' //用translate挑整axisX,axisY的位置
         })
         .selectAll('text')
         .attr({
@@ -243,7 +266,7 @@ d3.csv("unemploymentRate.csv", function(data) {
             'class': 'axisY',
             'fill': 'none',
             'stroke': 'rgba(170,170,170,1)',
-            'transform': 'translate(' + (linechartMargin.left) + ',' + (linechartMargin.top) + ')' //用translate挑整axisX,axisY的位置
+            'transform': 'translate(' + (linechartMargin.left + infoDivWidth) + ',' + (linechartMargin.top) + ')' //用translate挑整axisX,axisY的位置
         })
         .selectAll('text')
         .attr({
@@ -277,14 +300,14 @@ d3.csv("unemploymentRate.csv", function(data) {
             .enter()
             .append('g')
             .append('circle')
-            .attr('class', function(d, i) {
+            .attr('class', function (d, i) {
                 //console.log("dots" + i + " onLine" + j)
                 return "dots" + i + " onLine" + j;
             })
-            .attr('cx', function(d) {
-                return scaleX(d.x) + linechartMargin.left;
+            .attr('cx', function (d) {
+                return scaleX(d.x) + linechartMargin.left + infoDivWidth;
             })
-            .attr('cy', function(d) {
+            .attr('cy', function (d) {
                 if (j == 0) return scaleY(d.total) + linechartMargin.top;
                 else if (j == 1) return scaleY(d.primary) + linechartMargin.top;
                 else if (j == 2) return scaleY(d.junior) + linechartMargin.top;
@@ -294,17 +317,26 @@ d3.csv("unemploymentRate.csv", function(data) {
                 else if (j == 6) return scaleY(d.college) + linechartMargin.top;
                 else if (j == 7) return scaleY(d.graduate) + linechartMargin.top;
             })
-            .attr('fill', function(d) {
+            .attr('fill', function (d) {
                 if (j == 0) return lineColor1;
-                if (j == 1) return lineColor2;
-                if (j == 2) return lineColor3;
-                if (j == 3) return lineColor4;
-                if (j == 4) return lineColor5;
-                if (j == 5) return lineColor6;
-                if (j == 6) return lineColor7;
-                if (j == 7) return lineColor8;
+                else if (j == 1) return lineColor2;
+                else if (j == 2) return lineColor3;
+                else if (j == 3) return lineColor4;
+                else if (j == 4) return lineColor5;
+                else if (j == 5) return lineColor6;
+                else if (j == 6) return lineColor7;
+                else if (j == 7) return lineColor8;
             })
-            .attr('r', originR);
+            .attr('r', originR)
+            .attr("opacity", function (d) {
+                if (j == 7) {
+                    if (d.graduate <= 0) return 0;
+                    else return 1;
+                } else {
+                    return 1;
+                }
+            });
+        //d3.select(".line7").attr("opacity", 0);
     }
 
     //繪出圓點資訊
@@ -337,7 +369,7 @@ d3.csv("unemploymentRate.csv", function(data) {
         tips.append('text')
             .attr('class', tipText[j])
             .attr('dx', infoTextOffsetX)
-            .attr('dy', function() {
+            .attr('dy', function () {
                 return 20 * (j + 1)
             })
             .text("")
@@ -354,7 +386,7 @@ d3.csv("unemploymentRate.csv", function(data) {
 
             //show data
             for (var i = 0; i < data.length; ++i) {
-                if (Math.abs(mousePosOnLinechart[0] - (scaleX(data[i].x) + linechartMargin.left)) < shineDistance) {
+                if (Math.abs(mousePosOnLinechart[0] - (scaleX(data[i].x) + linechartMargin.left + infoDivWidth)) < shineDistance) {
                     dotIsShining++;
                     //讓點反覆閃爍
                     d3.selectAll(".dots" + i)
@@ -382,10 +414,10 @@ d3.csv("unemploymentRate.csv", function(data) {
                         .transition()
                         .delay(10)
                         .attr('opacity', 0.4)
-                        .attr("x", function() {
-                            return linechartWidth + 100;
+                        .attr("x", function () {
+                            return linechartMargin.left + 50;
                         })
-                        .attr("y", function() {
+                        .attr("y", function () {
                             return linechartMargin.top;
                         });
                     //顯示資料塊裡的文字
@@ -394,22 +426,22 @@ d3.csv("unemploymentRate.csv", function(data) {
                             .transition()
                             .delay(10)
                             .attr("opacity", 1)
-                            .attr("x", function() {
-                                return linechartWidth + 100;
+                            .attr("x", function () {
+                                return linechartMargin.left + 50;
                             })
-                            .attr("y", function() {
+                            .attr("y", function () {
                                 return linechartMargin.top;
                             })
-                            .text(function(d) {
+                            .text(function (d) {
                                 if (j == 0) return data[i].year + " 年 各教育程度失業率";
-                                if (j == 1) return "平均 : " + data[i].total + "%";
-                                if (j == 2) return "小學及以下 : " + data[i].primary + "%";
-                                if (j == 3) return "國中 : " + data[i].junior + "%";
-                                if (j == 4) return "高中 : " + data[i].senior + "%";
-                                if (j == 5) return "高職 : " + data[i].vocational + "%";
-                                if (j == 6) return "專科 : " + data[i].specialist + "%";
-                                if (j == 7) return "大學 : " + data[i].college + "%";
-                                if (j == 8) return "研究所及以上 : " + data[i].graduate + "%";
+                                else if (j == 1) return "平均 : " + data[i].total + "%";
+                                else if (j == 2) return "小學及以下 : " + data[i].primary + "%";
+                                else if (j == 3) return "國中 : " + data[i].junior + "%";
+                                else if (j == 4) return "高中 : " + data[i].senior + "%";
+                                else if (j == 5) return "高職 : " + data[i].vocational + "%";
+                                else if (j == 6) return "專科 : " + data[i].specialist + "%";
+                                else if (j == 7) return "大學 : " + data[i].college + "%";
+                                else if (j == 8) return "研究所及以上 : " + data[i].graduate + "%";
                             });
                     }
                 } else if (dotIsShining != 0) { //當有某資料點正在閃爍且滑鼠離該資料點的x軸距離大於10的時候
@@ -417,43 +449,43 @@ d3.csv("unemploymentRate.csv", function(data) {
                     //透過filter篩選class裡的class，還原正確的顏色
                     d3.selectAll(".dots" + i)
                         .filter(".onLine0")
-                        .attr('fill', function(d) {
+                        .attr('fill', function (d) {
                             return lineColor1;
                         });
                     d3.selectAll(".dots" + i)
                         .filter(".onLine1")
-                        .attr('fill', function(d) {
+                        .attr('fill', function (d) {
                             return lineColor2;
                         });
                     d3.selectAll(".dots" + i)
                         .filter(".onLine2")
-                        .attr('fill', function(d) {
+                        .attr('fill', function (d) {
                             return lineColor3;
                         });
                     d3.selectAll(".dots" + i)
                         .filter(".onLine3")
-                        .attr('fill', function(d) {
+                        .attr('fill', function (d) {
                             return lineColor4;
                         });
 
                     d3.selectAll(".dots" + i)
                         .filter(".onLine4")
-                        .attr('fill', function(d) {
+                        .attr('fill', function (d) {
                             return lineColor5;
                         });
                     d3.selectAll(".dots" + i)
                         .filter(".onLine5")
-                        .attr('fill', function(d) {
+                        .attr('fill', function (d) {
                             return lineColor6;
                         });
                     d3.selectAll(".dots" + i)
                         .filter(".onLine6")
-                        .attr('fill', function(d) {
+                        .attr('fill', function (d) {
                             return lineColor7;
                         });
                     d3.selectAll(".dots" + i)
                         .filter(".onLine7")
-                        .attr('fill', function(d) {
+                        .attr('fill', function (d) {
                             return lineColor8;
                         });
 
@@ -466,10 +498,10 @@ d3.csv("unemploymentRate.csv", function(data) {
             }
             //設定跟著滑鼠跑的那條線從長度從y = 0 到畫布的最底
             d3.select('#flexibleLine')
-                .style('opacity', function() {
-                    if (mousePosOnLinechart[0] < (scaleX(data[0].x) + linechartMargin.left))
+                .style('opacity', function () {
+                    if (mousePosOnLinechart[0] < (scaleX(data[0].x) + linechartMargin.left + infoDivWidth))
                         return 0;
-                    else if (mousePosOnLinechart[0] > scaleX(data[data.length - 1].x) + linechartMargin.left + 10)
+                    else if (mousePosOnLinechart[0] > scaleX(data[data.length - 1].x) + linechartMargin.left + infoDivWidth + 10)
                         return 0;
                     else return 1;
                 })
@@ -483,7 +515,100 @@ d3.csv("unemploymentRate.csv", function(data) {
 
     }
 
+    var newTotalOpacity = 0; 
+    d3.select("#total").on('change', function () {
+        d3.select(".historylines0").style("opacity", newTotalOpacity);
+        for (var i = 0; i < data.length; ++i) {
+            d3.selectAll(".dots" + i)
+                .filter(".onLine0")
+                .style("opacity", newTotalOpacity);
+        }
+        if(newTotalOpacity == 0) newTotalOpacity = 1;
+        else newTotalOpacity = 0;
+    });
 
+    var newPrimaryOpacity = 0; 
+    d3.select("#primary").on('change', function () {
+        d3.select(".historylines1").style("opacity", newPrimaryOpacity);
+        for (var i = 0; i < data.length; ++i) {
+            d3.selectAll(".dots" + i)
+                .filter(".onLine1")
+                .style("opacity", newPrimaryOpacity);
+        }
+        if(newPrimaryOpacity == 0) newPrimaryOpacity = 1;
+        else newPrimaryOpacity = 0;
+    });
 
+    var newJuniorOpacity = 0; 
+    d3.select("#junior").on('change', function () {
+        d3.select(".historylines2").style("opacity", newJuniorOpacity);
+        for (var i = 0; i < data.length; ++i) {
+            d3.selectAll(".dots" + i)
+                .filter(".onLine2")
+                .style("opacity", newJuniorOpacity);
+        }
+        if(newJuniorOpacity == 0) newJuniorOpacity = 1;
+        else newJuniorOpacity = 0;
+    });
+
+    var newSeniorOpacity = 0; 
+    d3.select("#senior").on('change', function () {
+        d3.select(".historylines3").style("opacity", newSeniorOpacity);
+        for (var i = 0; i < data.length; ++i) {
+            d3.selectAll(".dots" + i)
+                .filter(".onLine3")
+                .style("opacity", newSeniorOpacity);
+        }
+        if(newSeniorOpacity == 0) newSeniorOpacity = 1;
+        else newSeniorOpacity = 0;
+    });
+
+    var newVocationalOpacity = 0; 
+    d3.select("#vocational").on('change', function () {
+        d3.select(".historylines4").style("opacity", newVocationalOpacity);
+        for (var i = 0; i < data.length; ++i) {
+            d3.selectAll(".dots" + i)
+                .filter(".onLine4")
+                .style("opacity", newVocationalOpacity);
+        }
+        if(newVocationalOpacity == 0) newVocationalOpacity = 1;
+        else newVocationalOpacity = 0;
+    });
+
+    var newSpecialistOpacity = 0; 
+    d3.select("#specialist").on('change', function () {
+        d3.select(".historylines5").style("opacity", newSpecialistOpacity);
+        for (var i = 0; i < data.length; ++i) {
+            d3.selectAll(".dots" + i)
+                .filter(".onLine5")
+                .style("opacity", newSpecialistOpacity);
+        }
+        if(newSpecialistOpacity == 0) newSpecialistOpacity = 1;
+        else newSpecialistOpacity = 0;
+    });
+
+    var newCollegeOpacity = 0; 
+    d3.select("#college").on('change', function () {
+        d3.select(".historylines6").style("opacity", newCollegeOpacity);
+        for (var i = 0; i < data.length; ++i) {
+            d3.selectAll(".dots" + i)
+                .filter(".onLine6")
+                .style("opacity", newCollegeOpacity);
+        }
+        if(newCollegeOpacity == 0) newCollegeOpacity = 1;
+        else newCollegeOpacity = 0;
+    });
+
+    var newGraduateOpacity = 0; 
+    d3.select("#graduate").on('change', function () {
+        d3.select(".historylines7").style("opacity", newGraduateOpacity);
+        for (var i = 0; i < data.length; ++i) {
+            d3.selectAll(".dots" + i)
+                .filter(".onLine7")
+                .style("opacity", newGraduateOpacity);
+        }
+        if(newGraduateOpacity == 0) newGraduateOpacity = 1;
+        else newGraduateOpacity = 0;
+    });
 
 });
