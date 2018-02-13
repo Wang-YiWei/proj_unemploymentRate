@@ -5,64 +5,15 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="notosans.css">
     <link rel="stylesheet" type="text/css" href="index.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-        crossorigin="anonymous">
     <title>失業率按教育程度</title>
 </head>
 
 <body>
+    <svg width="1160" height="640"></svg>
 
-    <div class="chart1">
-        <svg id="lineChartSvg">
-            <foreignobject class="node" x="120" y="250" width="150" height="300">
-                <div>
-                    <h2>各教育程度</h2>
-                    <div>
-                        <input type="checkbox" id="total" name="education" value="total" checked>
-                        <label for="total">平均</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="primary" name="education" value="primary" checked>
-                        <label for="primary">小學及以下</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="junior" name="education" value="junior" checked>
-                        <label for="junior">國中</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="senior" name="education" value="senior" checked>
-                        <label for="senior">高中</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="vocational" name="education" value="vocational" checked>
-                        <label for="vocational">高職</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="specialist" name="education" value="specialist" checked>
-                        <label for="specialist">專科</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="college" name="education" value="college" checked>
-                        <label for="college">大學</label>
-                    </div>
-                    <div>
-                        <input type="checkbox" id="graduate" name="education" value="graduate" checked>
-                        <label for="graduate">研究所及以上</label>
-                    </div> 
-                </div>
-            </foreignobject>
-        </svg>
-    </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="d3.js"></script>
-    <script type="text/javascript" src="index.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="d3-tip.js"></script>
+    <script type="text/javascript" src="barchart.js"></script>
 </body>
 
 </html>
