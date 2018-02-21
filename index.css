@@ -27,9 +27,9 @@
     top: 100%;
     left: 0;
 }
-.axis .domain {
+/* .axis .domain {
     display: none;
-}
+} */
 .bar {
     opacity: 1;
 }

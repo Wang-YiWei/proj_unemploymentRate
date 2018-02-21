@@ -29,9 +29,14 @@ var y = d3.scaleLinear()
 
 // var colors = d3.scaleOrdinal()
 //     .range(["#E1BEE7","#CE93D8","#BA68C8","#9C27B0","#3F51B5","#1E88E5","#039BE5","#00ACC1"]);
-    
+
+
 var colors = d3.scaleOrdinal()
-    .range(["#FFE1E0","#CAEDEB","#9FC2BF","#FFAB87","#FBFF85","#6DBC9C","#7DA2FF","#B28FCE"]);
+    .range(["#FBFF85","#CAEDEB","#9FC2BF","#FFAB87","#FCD78E","#6DBC9C","#7DA2FF","#EEA1EB"]);
+
+// var colors = d3.scaleLinear()
+//     .domain([0,7])
+//     .range(['#FAFB97','#BB5A5A']);
 
 d3.csv("unemploymentRate_new.csv", function(d, i, columns) {
   for (var i = 1, n = columns.length; i < n; ++i) {
@@ -63,7 +68,7 @@ d3.csv("unemploymentRate_new.csv", function(d, i, columns) {
         .attr("y", function(d) { return y(0); })
         .attr("width", x1.bandwidth())
         .attr("height", function(d) { return height - y(0); })
-        .attr("fill", function(d) { return colors(d.key); })
+        .attr("fill", function(d,i) { return colors(d.key); })
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide);
 
@@ -76,24 +81,30 @@ d3.csv("unemploymentRate_new.csv", function(d, i, columns) {
     
     // 繪出X軸
     g.append("g")
+        .style("font-size", "16px")
         .attr("class", "axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x0));
-
+        .call(d3.axisBottom(x0))
+        .append("text") // x軸標示文字
+        .attr("dy", "1.1em")
+        .attr("x", width)
+        .attr("fill", "#000")
+        .attr("text-anchor", "start")
+        .text("(年)");
 
     // 繪出Y軸
     g.append("g")
         .attr("class", "axis Y")
         .style('opacity','0')
+        .style("font-size", "16px")
         .call(d3.axisLeft(y).ticks(null, "s"))
         .append("text") // y軸標示文字
         .attr("x", 10)
         .attr("y", y(y.ticks().pop()) + 0.5)
         .attr("dy", "0.4em")
         .attr("fill", "#000")
-        .attr("font-weight", "bold")
         .attr("text-anchor", "start")
-        .text("失業率");
+        .text("失業率(%)");
 
     d3.select(".Y").transition().duration(500).delay(1000).style('opacity','1');
 
