@@ -99,7 +99,7 @@ d3.csv("unemployment_rate.csv", function (data) {
 
 
     //設定座標系
-    var gridInterval = 10;
+    var gridInterval = 5;
 
     var axisX = d3.svg.axis()
         .scale(scaleX2)
