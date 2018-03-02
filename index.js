@@ -301,16 +301,19 @@ d3.csv("unemployment_rate.csv", function (data) {
     // fade in lines and dots
     var order = [6,3,2,4,0,7,5,1];
     for (var i = 0; i < 8; i++) {
-        d3.select(".historylines" + order[i]).transition().duration(1000).delay(300 * i).style("opacity", 1);
+        d3.select(".historylines" + order[i]).transition().duration(500).delay(300 * i).style("opacity", 1);
         for (var j = 0; j < data.length; ++j) {
             d3.selectAll(".dots" + j)
                 .filter(".onLine" + order[i])
                 .transition()
-                .duration(1000)
+                .duration(500)
                 .delay(300 * i)
                 .style("opacity", 1);
         }
     }
+
+    dataIsChanging = 1;
+    setTimeout(function(){ dataIsChanging = 0; }, 2500);
 
     function linechartMove(d, i) {
         if (dataIsChanging == 0) {
@@ -413,7 +416,7 @@ d3.csv("unemployment_rate.csv", function (data) {
     }
 
     var legendWidth = 50;
-    var legendHeight = 300;
+    var legendHeight = 270;
     var checkboxWidth = 100;
     var checkboxHeight = 20;
     var legendOffset = 30;
