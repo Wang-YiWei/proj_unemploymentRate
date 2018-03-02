@@ -132,9 +132,9 @@ d3.csv("unemployment_rate.csv", function (data) {
         .tickSize(-linechartWidth, 0);
 
     //繪出8條折線
-    var lineColor1 = 'green'; // 5
+    var lineColor1 = '#FF7F5B'; // 5
     var lineColor2 = '#BC5148'; // 8
-    var lineColor3 = '#FF7F5B'; // 4
+    var lineColor3 = 'green'; // 4
     var lineColor4 = '#9BB4DA'; // 2
     var lineColor5 = '#FFBD39'; // 3
     var lineColor6 = '#C238B5'; // 7
@@ -191,7 +191,7 @@ d3.csv("unemployment_rate.csv", function (data) {
             'fill': '#000',
             'stroke': 'none',
         }).style({
-            'font-size': '11px'
+            'font-size': '20px'
         });
     //繪出Y軸
     linechartsvg.append('g')
@@ -208,7 +208,7 @@ d3.csv("unemployment_rate.csv", function (data) {
             'fill': '#000',
             'stroke': 'none',
         }).style({
-            'font-size': '11px'
+            'font-size': '20px'
         });
 
     //繪出跟著滑鼠跑的線
@@ -298,17 +298,19 @@ d3.csv("unemployment_rate.csv", function (data) {
     var shineDistance = 3;
 
 
-    // fade in lines and dots
+    //讓線跟點淡入
     var order = [6,3,2,4,0,7,5,1];
     for (var i = 0; i < 8; i++) {
-        d3.select(".historylines" + order[i]).transition().duration(500).delay(300 * i).style("opacity", 1);
+        d3.select(".historylines" + order[i]).transition().duration(500).delay(300 * i).style("opacity", function (){return i==4?0:1;});
         for (var j = 0; j < data.length; ++j) {
             d3.selectAll(".dots" + j)
                 .filter(".onLine" + order[i])
                 .transition()
                 .duration(500)
                 .delay(300 * i)
-                .style("opacity", 1);
+                .style("opacity", function (){
+                    return i==4?0:1;  
+                });
         }
     }
 
@@ -429,7 +431,8 @@ d3.csv("unemployment_rate.csv", function (data) {
     var select_line = ["", "", "", "", "", "", "", "", "", ""];
     var all_opacity = [0, 0, 0, 0, 0, 0, 0, 0];
     for (var k = 0; k < 8; k++) {
-        linechartsvg.append("foreignObject")
+        if(k!=0){
+            linechartsvg.append("foreignObject")
             .attr("x", legendWidth)
             .attr("y", legendHeight + legendOffset * k)
             .attr("width", checkboxWidth)
@@ -437,6 +440,17 @@ d3.csv("unemployment_rate.csv", function (data) {
             .append("xhtml:body")
             .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + " checked><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
             .on("click", update_line);
+        }
+        else{
+            linechartsvg.append("foreignObject")
+            .attr("x", legendWidth)
+            .attr("y", legendHeight + legendOffset * k)
+            .attr("width", checkboxWidth)
+            .attr("height", checkboxHeight)
+            .append("xhtml:body")
+            .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + "><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
+            .on("click", update_line);
+        }
     }
 
     function update_line() {
