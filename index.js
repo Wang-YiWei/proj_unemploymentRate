@@ -13,7 +13,6 @@ d3.csv("unemployment_rate.csv", function (data) {
         d.college = +d.college;
         d.graduate = +d.graduate;
     });
-    //console.log(data);
 
     var minYear = d3.extent(data, function (it) {
             return it.year
@@ -151,32 +150,13 @@ d3.csv("unemployment_rate.csv", function (data) {
                 'stroke': function (d) {
                     return lineColors[i];
                 },
-                'stroke-width':2,
+                'stroke-width': 2,
                 'transform': 'translate(' + (linechartMargin.left + infoDivWidth) + ', ' + (linechartMargin.top) + ')', //用translate挑整axisX,axisY的位置
                 'fill': 'none',
                 'opacity': 0 //先讓一開始的opacity是0，之後fade in
             });
     }
 
-
-    //繪出X軸標格
-    linechartsvg.append('g')
-        .call(axisXGrid)
-        .attr({
-            'fill': 'none',
-            'stroke': 'rgba(170,170,170,0.2)',
-            // 'stroke': 'rgba(0,0,0,.1)',
-            'transform': 'translate(' + (linechartMargin.left + infoDivWidth) + ', ' + (linechartHeight + linechartMargin.top) + ')'
-        });
-    //繪出Y軸標格
-    linechartsvg.append('g')
-        .call(axisYGrid)
-        .attr({
-            'fill': 'none',
-            'stroke': 'rgba(170,170,170,0.2)',
-            // 'stroke': 'rgba(0,0,0,.1)',
-            'transform': 'translate(' + (linechartMargin.left + infoDivWidth) + ',' + (linechartMargin.top) + ')'
-        });
     //繪出X軸
     linechartsvg.append('g')
         .call(axisX) //call axisX
@@ -193,6 +173,7 @@ d3.csv("unemployment_rate.csv", function (data) {
         }).style({
             'font-size': '20px'
         });
+
     //繪出Y軸
     linechartsvg.append('g')
         .call(axisY) //call axisY
@@ -295,27 +276,30 @@ d3.csv("unemployment_rate.csv", function (data) {
 
     //跟著滑鼠跑的那條線的Function
     var dotIsShining = 0; //判斷是否有某資料點正在閃爍
-    var shineDistance = 3;
-
+    var shineDistance = 10;
 
     //讓線跟點淡入
-    var order = [6,3,2,4,0,7,5,1];
+    var order = [6, 3, 2, 4, 0, 7, 5, 1];
     for (var i = 0; i < 8; i++) {
-        d3.select(".historylines" + order[i]).transition().duration(500).delay(300 * i).style("opacity", function (){return i==4?0:1;});
+        d3.select(".historylines" + order[i]).transition().duration(500).delay(300 * i).style("opacity", function () {
+            return i == 4 ? 0 : 1;
+        });
         for (var j = 0; j < data.length; ++j) {
             d3.selectAll(".dots" + j)
                 .filter(".onLine" + order[i])
                 .transition()
                 .duration(500)
                 .delay(300 * i)
-                .style("opacity", function (){
-                    return i==4?0:1;  
+                .style("opacity", function () {
+                    return i == 4 ? 0 : 1;
                 });
         }
     }
 
     dataIsChanging = 1;
-    setTimeout(function(){ dataIsChanging = 0; }, 2500);
+    setTimeout(function () {
+        dataIsChanging = 0;
+    }, 2500);
 
     function linechartMove(d, i) {
         if (dataIsChanging == 0) {
@@ -417,12 +401,19 @@ d3.csv("unemployment_rate.csv", function (data) {
 
     }
 
+    var legendX = 70;
+    var legendY = 270;
     var legendWidth = 50;
-    var legendHeight = 270;
-    var checkboxWidth = 100;
-    var checkboxHeight = 20;
+    var legendHeight = 10;
     var legendOffset = 30;
-    var weirdOffset = 10;
+    
+
+    var checkboxWidth = 100;
+    var checkboxHeight = 30;
+    var checkboxOffset = 40;
+
+    var elementOffset = 15;
+
 
     var newTotalOpacity = 0;
     var all_type = ["\"total\"", "\"primary\"", "\"junior\"", "\"senior\"", "\"vocational\"", "\"specialist\"", "\"college\"", "\"graduate\""];
@@ -430,26 +421,52 @@ d3.csv("unemployment_rate.csv", function (data) {
     var all_type3 = ["total", "primary", "junior", "senior", "vocational", "specialist", "college", "graduate"];
     var select_line = ["", "", "", "", "", "", "", "", "", ""];
     var all_opacity = [0, 0, 0, 0, 0, 0, 0, 0];
+
+    var legend = linechartsvg.selectAll('.legend')
+        .data(all_type2)
+        .enter().append('g')
+        .attr("class", "legends")
+        .attr("transform", function (d, i) {
+            {
+                return "translate(0," + i * legendOffset + ")"
+            }
+        })
+
+    legend.append('rect')
+        .attr("x", legendX)
+        .attr("y", legendY)
+        .attr("id",function(d,i){
+            console.log("legend"+i);
+            return "legend"+i;
+        })
+        .attr("width", legendWidth)
+        .attr("height", legendHeight)
+        .style("fill", function (d, i) {
+            return lineColors[i];
+        })
+
+    d3.select("#legend0").attr("opacity",0);
+
+    // checkbox
     for (var k = 0; k < 8; k++) {
-        if(k!=0){
+        if (k != 0) {
             linechartsvg.append("foreignObject")
-            .attr("x", legendWidth)
-            .attr("y", legendHeight + legendOffset * k)
-            .attr("width", checkboxWidth)
-            .attr("height", checkboxHeight)
-            .append("xhtml:body")
-            .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + " checked><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
-            .on("click", update_line);
-        }
-        else{
+                .attr("x", legendX + legendWidth)
+                .attr("y", legendY + legendOffset * k - elementOffset)
+                .attr("width", checkboxWidth)
+                .attr("height", checkboxHeight)
+                .append("xhtml:body")
+                .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + " checked><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
+                .on("click", update_line);
+        } else {
             linechartsvg.append("foreignObject")
-            .attr("x", legendWidth)
-            .attr("y", legendHeight + legendOffset * k)
-            .attr("width", checkboxWidth)
-            .attr("height", checkboxHeight)
-            .append("xhtml:body")
-            .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + "><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
-            .on("click", update_line);
+                .attr("x", legendX + legendWidth)
+                .attr("y", legendY + legendOffset * k - elementOffset)
+                .attr("width", checkboxWidth)
+                .attr("height", checkboxHeight)
+                .append("xhtml:body")
+                .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + "><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
+                .on("click", update_line);
         }
     }
 
@@ -457,6 +474,7 @@ d3.csv("unemployment_rate.csv", function (data) {
         for (var i = 0; i < 8; i++) {
             if (d3.select("#" + all_type3[i]).property("checked")) {
                 d3.select(".historylines" + i).style("opacity", 1);
+                d3.select("#legend"+i).attr("opacity",1);
                 for (var j = 0; j < data.length; ++j) {
                     d3.selectAll(".dots" + j)
                         .filter(".onLine" + i)
@@ -464,6 +482,7 @@ d3.csv("unemployment_rate.csv", function (data) {
                 }
             } else {
                 d3.select(".historylines" + i).style("opacity", 0);
+                d3.select("#legend"+i).attr("opacity",0);                
                 for (var j = 0; j < data.length; ++j) {
                     d3.selectAll(".dots" + j)
                         .filter(".onLine" + i)
@@ -474,28 +493,11 @@ d3.csv("unemployment_rate.csv", function (data) {
 
     }
 
-    // var legend = linechartsvg.selectAll('.legend')
-    //     .data(all_type2)
-    //     .enter().append('g')
-    //     .attr("class", "legends")
-    //     .attr("transform", function (d, i) {
-    //         {
-    //             return "translate(0," + i * legendOffset + ")"
-    //         }
-    //     })
 
-    // legend.append('rect')
-    //     .attr("x", legendWidth+checkboxWidth)
-    //     .attr("y", legendHeight+checkboxHeight-weirdOffset)
-    //     .attr("width", checkboxHeight)
-    //     .attr("height", checkboxHeight)
-    //     .style("fill", function (d, i) {
-    //         return lineColors[i];
-    //     })
 
     // legend.append('text')
-    //     .attr("x", legendWidth+checkboxWidth+30)
-    //     .attr("y", legendHeight+checkboxHeight+5)
+    //     .attr("x", legendX+legendWidth+30)
+    //     .attr("y", legendY+legendHeight+5)
     //     //.attr("dy", ".35em")
     //     .text(function (d, i) {
     //         return d;
