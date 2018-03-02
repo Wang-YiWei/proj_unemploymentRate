@@ -1,6 +1,6 @@
 ﻿var dataIsChanging = 0;
 
-d3.csv("unemploymentRate.csv", function (data) {
+d3.csv("unemployment_rate.csv", function (data) {
     data.forEach(function (d) {
         d.x = +d.x;
         d.year = +d.year;
@@ -33,8 +33,8 @@ d3.csv("unemploymentRate.csv", function (data) {
         maxX = d3.max(data, function (d) {
             return d.x
         }),
-        minY = 0,
-        maxY = 7;
+        minY = 1.5,
+        maxY = 6;
 
     //console.log(minYear);
 
@@ -54,7 +54,7 @@ d3.csv("unemploymentRate.csv", function (data) {
         .domain([minX, maxX]);
 
     var scaleX2 = d3.scale.linear()
-        .range([0, linechartWidth])
+        .rangeRound([0, linechartWidth])
         .domain([minYear, maxYear]);
 
     var scaleY = d3.scale.linear()
@@ -141,6 +141,8 @@ d3.csv("unemploymentRate.csv", function (data) {
     var lineColor7 = 'brown';
     var lineColor8 = 'black';
 
+    var lineColors = [lineColor1,lineColor2,lineColor3,lineColor4,lineColor5,lineColor6,lineColor7,lineColor8,];
+
     // //標明線段
     // var beginX = linechartMargin.left,
     //     beginY = 0.3 * linechartMargin.top,
@@ -210,17 +212,11 @@ d3.csv("unemploymentRate.csv", function (data) {
             .attr({
                 'd': lines[i](data),
                 'stroke': function (d) {
-                    if (i == 0) return lineColor1;
-                    else if (i == 1) return lineColor2;
-                    else if (i == 2) return lineColor3;
-                    else if (i == 3) return lineColor4;
-                    else if (i == 4) return lineColor5;
-                    else if (i == 5) return lineColor6;
-                    else if (i == 6) return lineColor7;
-                    else if (i == 7) return lineColor8;
+                    return lineColors[i];
                 },
                 'transform': 'translate(' + (linechartMargin.left + infoDivWidth) + ', ' + (linechartMargin.top) + ')', //用translate挑整axisX,axisY的位置
-                'fill': 'none'
+                'fill': 'none',
+                'opacity': 0 //先讓一開始的opacity是0，之後fade in
             });
     }
 
@@ -230,7 +226,7 @@ d3.csv("unemploymentRate.csv", function (data) {
         .call(axisXGrid)
         .attr({
             'fill': 'none',
-            'stroke': 'rgba(170,170,170,0.8)',
+            'stroke': 'rgba(170,170,170,0.2)',
             // 'stroke': 'rgba(0,0,0,.1)',
             'transform': 'translate(' + (linechartMargin.left + infoDivWidth) + ', ' + (linechartHeight + linechartMargin.top) + ')'
         });
@@ -239,7 +235,7 @@ d3.csv("unemploymentRate.csv", function (data) {
         .call(axisYGrid)
         .attr({
             'fill': 'none',
-            'stroke': 'rgba(170,170,170,0.8)',
+            'stroke': 'rgba(170,170,170,0.2)',
             // 'stroke': 'rgba(0,0,0,.1)',
             'transform': 'translate(' + (linechartMargin.left + infoDivWidth) + ',' + (linechartMargin.top) + ')'
         });
@@ -318,23 +314,17 @@ d3.csv("unemploymentRate.csv", function (data) {
                 else if (j == 7) return scaleY(d.graduate) + linechartMargin.top;
             })
             .attr('fill', function (d) {
-                if (j == 0) return lineColor1;
-                else if (j == 1) return lineColor2;
-                else if (j == 2) return lineColor3;
-                else if (j == 3) return lineColor4;
-                else if (j == 4) return lineColor5;
-                else if (j == 5) return lineColor6;
-                else if (j == 6) return lineColor7;
-                else if (j == 7) return lineColor8;
+                return lineColors[j];
             })
             .attr('r', originR)
             .attr("opacity", function (d) {
-                if (j == 7) {
-                    if (d.graduate <= 0) return 0;
-                    else return 1;
-                } else {
-                    return 1;
-                }
+                // if (j == 7) {
+                //     if (d.graduate <= 0) return 0;
+                //     else return 1;
+                // } else {
+                //     return 1;
+                // }
+                return 0;
             });
         //d3.select(".line7").attr("opacity", 0);
     }
@@ -380,6 +370,20 @@ d3.csv("unemploymentRate.csv", function (data) {
     var dotIsShining = 0; //判斷是否有某資料點正在閃爍
     var shineDistance = 3;
 
+
+    // fade in lines and dots
+    for (var i = 0; i < 8; i++) {
+        d3.select(".historylines" + i).transition().duration(1000).delay(300*i).style("opacity", 1);
+        for (var j = 0; j < data.length; ++j) {
+            d3.selectAll(".dots" + j)
+                .filter(".onLine" + i)
+                .transition()
+                .duration(1000)
+                .delay(300*i)
+                .style("opacity", 1);
+        }
+    }
+
     function linechartMove(d, i) {
         if (dataIsChanging == 0) {
             mousePosOnLinechart = d3.mouse(this);
@@ -412,7 +416,7 @@ d3.csv("unemploymentRate.csv", function (data) {
                     //顯示資料塊
                     d3.select('.tips-border')
                         .transition()
-                        .delay(10)
+                        // .delay(10)
                         .attr('opacity', 0.4)
                         .attr("x", function () {
                             return linechartMargin.left + 50;
@@ -424,7 +428,7 @@ d3.csv("unemploymentRate.csv", function (data) {
                     for (var j = 0; j < 9; ++j) {
                         d3.select('.' + tipText[j])
                             .transition()
-                            .delay(10)
+                            // .delay(10)
                             .attr("opacity", 1)
                             .attr("x", function () {
                                 return linechartMargin.left + 50;
@@ -447,48 +451,13 @@ d3.csv("unemploymentRate.csv", function (data) {
                 } else if (dotIsShining != 0) { //當有某資料點正在閃爍且滑鼠離該資料點的x軸距離大於10的時候
                     //讓閃爍的點恢復成原來的樣子
                     //透過filter篩選class裡的class，還原正確的顏色
-                    d3.selectAll(".dots" + i)
-                        .filter(".onLine0")
+                    for(var a = 0 ; a < 8 ; a++){
+                        d3.selectAll(".dots" + i)
+                        .filter(".onLine"+a)
                         .attr('fill', function (d) {
-                            return lineColor1;
+                            return lineColors[a];
                         });
-                    d3.selectAll(".dots" + i)
-                        .filter(".onLine1")
-                        .attr('fill', function (d) {
-                            return lineColor2;
-                        });
-                    d3.selectAll(".dots" + i)
-                        .filter(".onLine2")
-                        .attr('fill', function (d) {
-                            return lineColor3;
-                        });
-                    d3.selectAll(".dots" + i)
-                        .filter(".onLine3")
-                        .attr('fill', function (d) {
-                            return lineColor4;
-                        });
-
-                    d3.selectAll(".dots" + i)
-                        .filter(".onLine4")
-                        .attr('fill', function (d) {
-                            return lineColor5;
-                        });
-                    d3.selectAll(".dots" + i)
-                        .filter(".onLine5")
-                        .attr('fill', function (d) {
-                            return lineColor6;
-                        });
-                    d3.selectAll(".dots" + i)
-                        .filter(".onLine6")
-                        .attr('fill', function (d) {
-                            return lineColor7;
-                        });
-                    d3.selectAll(".dots" + i)
-                        .filter(".onLine7")
-                        .attr('fill', function (d) {
-                            return lineColor8;
-                        });
-
+                    }
                     d3.selectAll('.dots' + i)
                         .transition() //要是沒有這兩行，
                         .duration(shineDuration) //就算直接指定半徑恢復成圓半徑，還是看不見效果
@@ -515,100 +484,43 @@ d3.csv("unemploymentRate.csv", function (data) {
 
     }
 
-    var newTotalOpacity = 0; 
-    d3.select("#total").on('change', function () {
-        d3.select(".historylines0").style("opacity", newTotalOpacity);
-        for (var i = 0; i < data.length; ++i) {
-            d3.selectAll(".dots" + i)
-                .filter(".onLine0")
-                .style("opacity", newTotalOpacity);
-        }
-        if(newTotalOpacity == 0) newTotalOpacity = 1;
-        else newTotalOpacity = 0;
-    });
 
-    var newPrimaryOpacity = 0; 
-    d3.select("#primary").on('change', function () {
-        d3.select(".historylines1").style("opacity", newPrimaryOpacity);
-        for (var i = 0; i < data.length; ++i) {
-            d3.selectAll(".dots" + i)
-                .filter(".onLine1")
-                .style("opacity", newPrimaryOpacity);
-        }
-        if(newPrimaryOpacity == 0) newPrimaryOpacity = 1;
-        else newPrimaryOpacity = 0;
-    });
+    var newTotalOpacity = 0;
+    var all_type = ["\"total\"", "\"primary\"", "\"junior\"", "\"senior\"", "\"vocational\"", "\"specialist\"", "\"college\"", "\"graduate\""];
+    var all_type2 = ["平均", "國小", "國中", "高中", "高職", "專科", "大學", "研究所"];
+    var all_type3 = ["total", "primary", "junior", "senior", "vocational", "specialist", "college", "graduate"];
+    var select_line = ["", "", "", "", "", "", "", "", "", ""];
+    var all_opacity = [0, 0, 0, 0, 0, 0, 0, 0];
+    for (var k = 0; k < 8; k++) {
+        linechartsvg.append("foreignObject")
+            .attr("x", 100)
+            .attr("y", 300 + 30 * k)
+            .attr("width", 100)
+            .attr("height", 20)
+            .append("xhtml:body")
+            .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + " checked><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
+            .on("click", update_line);
+    }
 
-    var newJuniorOpacity = 0; 
-    d3.select("#junior").on('change', function () {
-        d3.select(".historylines2").style("opacity", newJuniorOpacity);
-        for (var i = 0; i < data.length; ++i) {
-            d3.selectAll(".dots" + i)
-                .filter(".onLine2")
-                .style("opacity", newJuniorOpacity);
+    function update_line() {
+        for (var i = 0; i < 8; i++) {
+            if (d3.select("#" + all_type3[i]).property("checked")) {
+                d3.select(".historylines" + i).style("opacity", 1);
+                for (var j = 0; j < data.length; ++j) {
+                    d3.selectAll(".dots" + j)
+                        .filter(".onLine" + i)
+                        .style("opacity", 1);
+                }
+            } else {
+                d3.select(".historylines" + i).style("opacity", 0);
+                for (var j = 0; j < data.length; ++j) {
+                    d3.selectAll(".dots" + j)
+                        .filter(".onLine" + i)
+                        .style("opacity", 0);
+                }
+            }
         }
-        if(newJuniorOpacity == 0) newJuniorOpacity = 1;
-        else newJuniorOpacity = 0;
-    });
 
-    var newSeniorOpacity = 0; 
-    d3.select("#senior").on('change', function () {
-        d3.select(".historylines3").style("opacity", newSeniorOpacity);
-        for (var i = 0; i < data.length; ++i) {
-            d3.selectAll(".dots" + i)
-                .filter(".onLine3")
-                .style("opacity", newSeniorOpacity);
-        }
-        if(newSeniorOpacity == 0) newSeniorOpacity = 1;
-        else newSeniorOpacity = 0;
-    });
-
-    var newVocationalOpacity = 0; 
-    d3.select("#vocational").on('change', function () {
-        d3.select(".historylines4").style("opacity", newVocationalOpacity);
-        for (var i = 0; i < data.length; ++i) {
-            d3.selectAll(".dots" + i)
-                .filter(".onLine4")
-                .style("opacity", newVocationalOpacity);
-        }
-        if(newVocationalOpacity == 0) newVocationalOpacity = 1;
-        else newVocationalOpacity = 0;
-    });
-
-    var newSpecialistOpacity = 0; 
-    d3.select("#specialist").on('change', function () {
-        d3.select(".historylines5").style("opacity", newSpecialistOpacity);
-        for (var i = 0; i < data.length; ++i) {
-            d3.selectAll(".dots" + i)
-                .filter(".onLine5")
-                .style("opacity", newSpecialistOpacity);
-        }
-        if(newSpecialistOpacity == 0) newSpecialistOpacity = 1;
-        else newSpecialistOpacity = 0;
-    });
-
-    var newCollegeOpacity = 0; 
-    d3.select("#college").on('change', function () {
-        d3.select(".historylines6").style("opacity", newCollegeOpacity);
-        for (var i = 0; i < data.length; ++i) {
-            d3.selectAll(".dots" + i)
-                .filter(".onLine6")
-                .style("opacity", newCollegeOpacity);
-        }
-        if(newCollegeOpacity == 0) newCollegeOpacity = 1;
-        else newCollegeOpacity = 0;
-    });
-
-    var newGraduateOpacity = 0; 
-    d3.select("#graduate").on('change', function () {
-        d3.select(".historylines7").style("opacity", newGraduateOpacity);
-        for (var i = 0; i < data.length; ++i) {
-            d3.selectAll(".dots" + i)
-                .filter(".onLine7")
-                .style("opacity", newGraduateOpacity);
-        }
-        if(newGraduateOpacity == 0) newGraduateOpacity = 1;
-        else newGraduateOpacity = 0;
-    });
+    }
 
 });

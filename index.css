@@ -37,3 +37,8 @@
 .bar:hover {
     opacity: 0.8;
 }
+
+.node{
+    position: relative;
+    z-index: 3;
+}
