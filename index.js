@@ -406,21 +406,43 @@ d3.csv("unemployment_rate.csv", function (data) {
     var legendWidth = 50;
     var legendHeight = 10;
     var legendOffset = 30;
-    
+
 
     var checkboxWidth = 100;
     var checkboxHeight = 30;
     var checkboxOffset = 40;
 
-    var elementOffset = 15;
+    var elementOffsetX = 10;
+    var elementOffsetY = 6;
 
-
-    var newTotalOpacity = 0;
     var all_type = ["\"total\"", "\"primary\"", "\"junior\"", "\"senior\"", "\"vocational\"", "\"specialist\"", "\"college\"", "\"graduate\""];
     var all_type2 = ["平均", "國小", "國中", "高中", "高職", "專科", "大學", "研究所"];
     var all_type3 = ["total", "primary", "junior", "senior", "vocational", "specialist", "college", "graduate"];
-    var select_line = ["", "", "", "", "", "", "", "", "", ""];
-    var all_opacity = [0, 0, 0, 0, 0, 0, 0, 0];
+
+    for(var i = 0 ; i < 8 ; i++){
+        linechartsvg.append("text")
+        .attr("transform", function(){
+            var valY;
+            if (i == 0) valY =  parseInt(scaleY(data[5].total))+linechartMargin.top;
+                else if (i == 1) valY =  parseInt(scaleY(data[5].primary))+linechartMargin.top;
+                else if (i == 2) valY =  parseInt(scaleY(data[5].junior))+linechartMargin.top;
+                else if (i == 3) valY =  parseInt(scaleY(data[5].senior))+linechartMargin.top;
+                else if (i == 4) valY =  parseInt(scaleY(data[5].vocational))+linechartMargin.top;
+                else if (i == 5) valY =  parseInt(scaleY(data[5].specialist))+linechartMargin.top;
+                else if (i == 6) valY =  parseInt(scaleY(data[5].college))+linechartMargin.top;
+                else if (i == 7) valY =  parseInt(scaleY(data[5].graduate))+linechartMargin.top;
+            return "translate(" + (linechartWidth+infoDivWidth + 15) + "," + valY + ")";
+        })
+        // .attr("dy", ".35em")
+        .attr("text-anchor", "start")
+        .style("fill", function(){
+            return lineColors[i];
+        })
+        .text(function(){
+            return all_type2[i];
+        });
+    }
+    
 
     var legend = linechartsvg.selectAll('.legend')
         .data(all_type2)
@@ -435,9 +457,9 @@ d3.csv("unemployment_rate.csv", function (data) {
     legend.append('rect')
         .attr("x", legendX)
         .attr("y", legendY)
-        .attr("id",function(d,i){
-            console.log("legend"+i);
-            return "legend"+i;
+        .attr("id", function (d, i) {
+            //console.log("legend" + i);
+            return "legend" + i;
         })
         .attr("width", legendWidth)
         .attr("height", legendHeight)
@@ -445,14 +467,14 @@ d3.csv("unemployment_rate.csv", function (data) {
             return lineColors[i];
         })
 
-    d3.select("#legend0").attr("opacity",0);
+    d3.select("#legend0").attr("opacity", 0);
 
     // checkbox
     for (var k = 0; k < 8; k++) {
         if (k != 0) {
             linechartsvg.append("foreignObject")
-                .attr("x", legendX + legendWidth)
-                .attr("y", legendY + legendOffset * k - elementOffset)
+                .attr("x", legendX + legendWidth + elementOffsetX)
+                .attr("y", legendY + legendOffset * k - elementOffsetY)
                 .attr("width", checkboxWidth)
                 .attr("height", checkboxHeight)
                 .append("xhtml:body")
@@ -460,8 +482,8 @@ d3.csv("unemployment_rate.csv", function (data) {
                 .on("click", update_line);
         } else {
             linechartsvg.append("foreignObject")
-                .attr("x", legendX + legendWidth)
-                .attr("y", legendY + legendOffset * k - elementOffset)
+                .attr("x", legendX + legendWidth + elementOffsetX)
+                .attr("y", legendY + legendOffset * k - elementOffsetY)
                 .attr("width", checkboxWidth)
                 .attr("height", checkboxHeight)
                 .append("xhtml:body")
@@ -474,7 +496,7 @@ d3.csv("unemployment_rate.csv", function (data) {
         for (var i = 0; i < 8; i++) {
             if (d3.select("#" + all_type3[i]).property("checked")) {
                 d3.select(".historylines" + i).style("opacity", 1);
-                d3.select("#legend"+i).attr("opacity",1);
+                d3.select("#legend" + i).attr("opacity", 1);
                 for (var j = 0; j < data.length; ++j) {
                     d3.selectAll(".dots" + j)
                         .filter(".onLine" + i)
@@ -482,7 +504,7 @@ d3.csv("unemployment_rate.csv", function (data) {
                 }
             } else {
                 d3.select(".historylines" + i).style("opacity", 0);
-                d3.select("#legend"+i).attr("opacity",0);                
+                d3.select("#legend" + i).attr("opacity", 0);
                 for (var j = 0; j < data.length; ++j) {
                     d3.selectAll(".dots" + j)
                         .filter(".onLine" + i)
@@ -492,18 +514,5 @@ d3.csv("unemployment_rate.csv", function (data) {
         }
 
     }
-
-
-
-    // legend.append('text')
-    //     .attr("x", legendX+legendWidth+30)
-    //     .attr("y", legendY+legendHeight+5)
-    //     //.attr("dy", ".35em")
-    //     .text(function (d, i) {
-    //         return d;
-    //     })
-    //     .attr("class", "textselected")
-    //     .style("text-anchor", "start")
-    //     .style("font-size", 15)
 
 });
