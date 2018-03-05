@@ -1,6 +1,6 @@
 ﻿var dataIsChanging = 0;
 
-d3.csv("unemployment_rate.csv", function (data) {
+d3.csv("./data/unemployment_rate.csv", function (data) {
     data.forEach(function (d) {
         d.x = +d.x;
         d.year = +d.year;
@@ -39,13 +39,13 @@ d3.csv("unemployment_rate.csv", function (data) {
 
 
     var linechartMargin = {
-        top: 30,
-        right: 80,
+        top: 40,
+        right: 140,
         bottom: 150,
         left: 10
     };
 
-    var containerWidth = document.getElementById('unemployedSvg-container').clientWidth * 0.9;
+    var containerWidth = document.getElementById('unemployedSvg-container').clientWidth*0.95;
     var infoDivWidth = 300;
     // console.log(containerWidth);
     var linechartWidth = containerWidth - infoDivWidth - linechartMargin.left - linechartMargin.right;
@@ -127,9 +127,9 @@ d3.csv("unemployment_rate.csv", function (data) {
     var lineColor3 = '#CA82FF'; // 國中4
     var lineColor4 = '#00B7C2'; // 高中2
     var lineColor5 = 'green'; // 高職3
-    var lineColor6 = '#C238B5'; // 研究所7
+    var lineColor6 = '#C238B5'; // 專科6
     var lineColor7 = '#FFA600'; // 大學1
-    var lineColor8 = 'blue'; // 專科6
+    var lineColor8 = 'blue'; // 研究所7
     var textColor = '#6E6E6E';
 
     var lineColors = [lineColor1, lineColor2, lineColor3, lineColor4, lineColor5, lineColor6, lineColor7, lineColor8, ];
@@ -176,7 +176,7 @@ d3.csv("unemployment_rate.csv", function (data) {
             'stroke': 'rgba(170,170,170,1)',
             'transform': 'translate(' + (linechartMargin.left + infoDivWidth) + ',' + (linechartMargin.top) + ')' //用translate挑整axisX,axisY的位置
         })
-        .selectAll('text')
+        .selectAll("text")
         .attr({
             'class': 'linechartYtext',
             'fill': textColor, // y軸文字顏色
@@ -185,6 +185,22 @@ d3.csv("unemployment_rate.csv", function (data) {
             'font-size': '20px'
         })
         .attr('font-family', 'Noto Sans TC');
+
+    //繪出Y軸單位
+    unemployedSvg.append("text")
+        .attr("x", 0 + linechartMargin.left + infoDivWidth)
+        .attr("y", 0)
+        .attr("dy", "1em")
+        .attr({
+            'class': 'linechartYtext',
+            'fill': textColor, // y軸文字顏色
+            'stroke': 'none',
+        }).style({
+            'font-size': '20px'
+        })
+        .attr('font-family', 'Noto Sans TC')
+        .style("text-anchor", "middle")
+        .text("失業率(%)");
 
     //繪出跟著滑鼠跑的線
     var flexibleLineColor = '#6465A5';
@@ -195,12 +211,12 @@ d3.csv("unemployment_rate.csv", function (data) {
         .attr('x2', 0)
         .attr('y2', 0)
         .style('stroke', flexibleLineColor)
-        .style('stroke-width', 1)
+        .style('stroke-width', 5)
         .style('opacity', 0);
 
     //創造資料的圓點並繪出
-    var originR = 4,
-        bigR = 6;
+    var originR = 7,
+        bigR = 10;
     var dots = [8]; //store 4 kind of value's array.
     var dotName = ['dots1', 'dots2', 'dots3', 'dots4', 'dots5', 'dots6', 'dots7', 'dots8']
     for (var j = 0; j < 8; ++j) {
@@ -396,13 +412,13 @@ d3.csv("unemployment_rate.csv", function (data) {
     }
 
     var legendX = 80;
-    var legendY = 235;
+    var legendY = 250;
     var legendWidth = 50;
     var legendHeight = 10;
     var legendOffset = 30;
 
 
-    var checkboxWidth = 100;
+    var checkboxWidth = 130;
     var checkboxHeight = 30;
     var checkboxOffset = 40;
 
@@ -410,7 +426,7 @@ d3.csv("unemployment_rate.csv", function (data) {
     var elementOffsetY = 6;
 
     var all_type = ["\"total\"", "\"primary\"", "\"junior\"", "\"senior\"", "\"vocational\"", "\"specialist\"", "\"college\"", "\"graduate\""];
-    var all_type2 = ["平均", "國小", "國中", "高中", "高職", "專科", "大學", "研究所"];
+    var all_type2 = ["平均", "國小及以下", "國中", "高中", "高職", "專科", "大學", "研究所及以上"];
     var all_type3 = ["total", "primary", "junior", "senior", "vocational", "specialist", "college", "graduate"];
 
     // 此svg的標題
@@ -420,34 +436,41 @@ d3.csv("unemployment_rate.csv", function (data) {
         .attr("y", linechartHeight + linechartMargin.bottom)
         .attr("text-anchor", "middle")
         .text("失業率按教育程度（2011年-2016年）")
-        .attr("fill",textColor)
+        .attr("fill", textColor)
         .attr("font-size", "30px")
         .attr('font-family', 'Noto Sans TC');
 
-
+    var n = data.length - 1;
     // 每條線後面的文字
     for (var i = 0; i < 8; i++) {
         unemployedSvg.append("text")
             .attr("transform", function () {
                 var valY;
                 var moveRight = 0;
+                var moveUp = 0;
                 var moveDown = 0;
+
                 if (i == 0) {
-                    valY = parseInt(scaleY(data[5].total)) + linechartMargin.top;
-                    moveRight = 35;
-                } else if (i == 1) valY = parseInt(scaleY(data[5].primary)) + linechartMargin.top;
-                else if (i == 2) valY = parseInt(scaleY(data[5].junior)) + linechartMargin.top;
-                else if (i == 3) valY = parseInt(scaleY(data[5].senior)) + linechartMargin.top;
-                else if (i == 4) {
-                    valY = parseInt(scaleY(data[5].vocational)) + linechartMargin.top;
-                    moveDown = 10;
-                } else if (i == 5) {
-                    valY = parseInt(scaleY(data[5].specialist)) + linechartMargin.top;
+                    valY = parseInt(scaleY(data[n].total)) + linechartMargin.top;
+                    moveRight = 40;
+                } else if (i == 1) {
+                    valY = parseInt(scaleY(data[n].primary)) + linechartMargin.top;
+                    moveDown = 5;
+                } else if (i == 2) {
+                    valY = parseInt(scaleY(data[n].junior)) + linechartMargin.top;
+                    moveDown = 7;
+                } else if (i == 3) {
+                    valY = parseInt(scaleY(data[n].senior)) + linechartMargin.top;
+                    moveUp = 8;
+                } else if (i == 4) {
+                    valY = parseInt(scaleY(data[n].vocational)) + linechartMargin.top;
                     moveDown = 12;
-                }
-                else if (i == 6) valY = parseInt(scaleY(data[5].college)) + linechartMargin.top;
-                else if (i == 7) valY = parseInt(scaleY(data[5].graduate)) + linechartMargin.top;
-                return "translate(" + (linechartWidth + infoDivWidth + moveRight + 15) + "," + (valY + moveDown) + ")";
+                } else if (i == 5) {
+                    valY = parseInt(scaleY(data[n].specialist)) + linechartMargin.top;
+                    moveDown = 14;
+                } else if (i == 6) valY = parseInt(scaleY(data[n].college)) + linechartMargin.top;
+                else if (i == 7) valY = parseInt(scaleY(data[n].graduate)) + linechartMargin.top;
+                return "translate(" + (linechartWidth + infoDivWidth + moveRight + 15) + "," + (valY + moveDown - moveUp) + ")";
             })
             .attr("id", function () {
                 return "labeltext" + i;
@@ -462,6 +485,7 @@ d3.csv("unemployment_rate.csv", function (data) {
             .text(function () {
                 return all_type2[i];
             })
+            .attr("font-size", "20px")
             .attr('font-family', 'Noto Sans TC');
     }
 

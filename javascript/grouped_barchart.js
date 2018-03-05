@@ -38,7 +38,7 @@ var colors = d3.scaleOrdinal()
 //     .domain([0,7])
 //     .range(['#FAFB97','#BB5A5A']);
 
-d3.csv("unemploymentRate_new.csv", function(d, i, columns) {
+d3.csv("./data/unemploymentRate_new.csv", function(d, i, columns) {
   for (var i = 1, n = columns.length; i < n; ++i) {
     d[columns[i]] = +d[columns[i]];
   }

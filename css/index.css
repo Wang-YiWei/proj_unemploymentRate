@@ -1,0 +1,44 @@
+body {
+    /* background-color: #f7f7f7; */
+}
+
+#unemployedSvg {
+    background-color: #fff;
+}
+
+h1,
+h2,
+h4,
+h5,
+h6 {
+    color: #6E6E6E;
+    text-align: center;
+}
+
+h3 {
+    text-align: left;
+    color: #6E6E6E;
+    /* border-left: 4px solid orange; */
+}
+
+p {
+    color: #6E6E6E;
+    font-size: 20px;
+    font-family: 'Noto Sans TC';
+}
+
+/* input[type="checkbox"]{
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+} */
+
+#reason-select {
+    margin-left: 120px;
+}
+
+#salary-select {
+    margin-left: 120px;
+}

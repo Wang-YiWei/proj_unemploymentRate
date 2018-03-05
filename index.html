@@ -3,37 +3,152 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="notosans.css">
-    <link rel="stylesheet" type="text/css" href="index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/notosans.css">
+    <link rel="stylesheet" type="text/css" href="css/d3-tip.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
     <title>失業率按教育程度</title>
 </head>
 
 <body>
-    <!-- <svg id="lineChartSvg" width="1160" height="640"></svg> -->
+    <!--  -->
     <div class="row">
-        <div class = "col">
-            <br>
+        <div class="col">
             <br>
             <h1 style="color:orange">探討臺灣高學歷與失業率之關係</h1>
         </div>
     </div>
-    <hr width = "30%">
-    <div class="row" id = "unemployedSvg-container">
+    <hr width="30%">
+    <div class="row" id="unemployedSvg-container">
         <div class="col">
             <svg id="unemployedSvg">
             </svg>
         </div>
     </div>
-    
-    <div>
-
+    <br>
+    <br>
+    <!--  -->
+    <br>
+    <hr>
+    <div class="row">
+        <div class="col">
+            <br>
+            <h2>大學畢業失業率怎麼會這麼高？</h2>
+            <br>
+            <br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col" id="collegeSvg-container">
+            <svg id="collegeSvg">
+            </svg>
+        </div>
+        <div class="col">
+            <h3>
+                歷年大學畢業生人數日益上升
+            </h3>
+            <br>
+            <p>
+                1994年4月10號，410教改聯盟發起了「四一零教育大改造」的遊行
+                <br> 其中一點訴求為「廣社高中大學」
+                <br> 該點也的確影響了每年台灣的大學生畢業人數
+                <br> 由1994年的
+                <span style="color:#FF7777">67823</span>人，一直到2016年已經高達
+                <span style="color:#FF7777">228793</span>人
+                <br> 念大學的門檻日漸下降，人流不斷湧入大學端
+                <br> 時至今日也有了「大學生滿街跑」的現象
+                <br> 間接反映出大學學歷貶值
+                <br> 對於市場而言呈現出
+                <span style="color:#FF7777">供過於求</span>
+            </p>
+            <!-- <div>
+                <div style="width:160px;text-align:center">失業人口</div>
+                <div style="width:160px;border-top:1px solid #6E6E6E;text-align:center">失業人口+就業人口</div>
+            </div> -->
+        </div>
+    </div>
+    <!--  -->
+    <div class="row">
+        <div class="col" id="reasonSvg-container">
+            <select id="reason-select">
+                <option value="0">2017年</option>
+                <option value="1">2016年</option>
+                <option value="2">2015年</option>
+                <option value="3">2014年</option>
+                <option value="4">2013年</option>
+                <option value="5">2012年</option>
+                <option value="6">2011年</option>
+            </select>
+            <svg id="reasonSvg">
+            </svg>
+        </div>
+        <div class="col">
+            <h3>
+                沒有工作機會
+            </h3>
+            <br>
+            <p>
+                附圖包含2011年-2017年
+                <br>學歷為大學以上之失業者在找尋工作過程中
+                <br> 有過工作機會，卻未去就業之原因調查
+                <br> 由該圖可發現
+                <br>
+                <span style="color:#FF7777">沒有工作機會</span>是主要原因
+                <br> 其次，便是認為
+                <span style="color:#FF7777">待遇太低</span>
+                <br> 反倒是最為大家詬病的「
+                <span style="color:#76A665">學非所用</span>」
+                <br> 其實
+                <span style="color:#76A665">不佔多數</span>
+                <br>
+                <br>註：2012年以前之調查無「需輪班或排(輪)休」此題。
+            </p>
+        </div>
+    </div>
+    <!--  -->
+    <div class="row">
+        <div class="col" id="salarySvg-container">
+            <select id="salary-select">
+                <option value="0">2016年</option>
+                <option value="1">2015年</option>
+                <option value="2">2014年</option>
+                <option value="3">2013年</option>
+                <option value="4">2012年</option>
+                <option value="5">2011年</option>
+            </select>
+            <svg id="salarySvg">
+            </svg>
+        </div>
+        <div class="col">
+            <h3>
+                初任人員每人每月經常性薪資
+            </h3>
+            <br>
+            <p>
+                附圖為2011年-2016年
+                <br> 各教育程度之新鮮人薪資結果
+                <br> 回顧上一張圖我們可發現:
+                <br> 「大學生寧願失業，也
+                <span style="color:#FF7777">不願屈就低薪</span>」
+                <br> 此現象與本圖之結果吻合
+                <br> 順利就業者之薪資水平僅次於學歷在研究所以上的人
+                <br>
+                <br>註：初任人員亦即社會新鮮人。
+            </p>
+        </div>
     </div>
 
+
+
     <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
-    <!-- <script type="text/javascript" src="d3-tip.js"></script> -->
-    <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="javascript/d3-tip.js"></script>
+    <script type="text/javascript" src="javascript/linechart1.js"></script>
+    <script type="text/javascript" src="javascript/linechart2.js"></script>
+    <script type="text/javascript" src="javascript/barchart.js"></script>
+    <script type="text/javascript" src="javascript/barchart2.js"></script>
+
 </body>
 
 </html>
