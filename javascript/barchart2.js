@@ -5,13 +5,24 @@ d3.csv("./data/yearGroup.csv", function (error, yearGroupData) {
             top: 35,
             right: 20,
             bottom: 160,
-            left: 100
+            left: 70
         },
         yearGroupContainerWidth = document.getElementById("yearGroupSvg-container").clientWidth,
         yearGroupChartWidth = yearGroupContainerWidth - yearGroupChartMargin.left - yearGroupChartMargin.right,
         yearGroupChartHeight = 450 - yearGroupChartMargin.top - yearGroupChartMargin.bottom;
 
-    var textColor5 = '#6E6E6E';
+        var axisTextSize4 = 20;
+        // console.log(yearGroupContainerWidth);
+        // console.log(yearGroupChartWidth/24);
+        axisTextSize4 = (yearGroupChartWidth/24) > 20 ? 20 :(yearGroupChartWidth/24);
+        if((yearGroupChartWidth/24) >12 && (yearGroupChartWidth/24) <=17){
+            axisTextSize4 = 12;
+        }
+        // console.log(axisTextSize4);
+
+        if(yearGroupContainerWidth < 450) yearGroupChartMargin.bottom = 100;
+
+    var textColor4 = '#6E6E6E';
     var yearGroupScaleX = d3.scale.ordinal()
         .rangeRoundBands([0, yearGroupChartWidth], .25);
 
@@ -70,18 +81,18 @@ d3.csv("./data/yearGroup.csv", function (error, yearGroupData) {
         .attr("transform", "translate(0," + yearGroupChartHeight + ")")
         .call(yearGroupChartAxisX)
         .attr("fill", 'none')
-        .attr("stroke", textColor5)
+        .attr("stroke", textColor4)
         .selectAll("text")
         .style("text-anchor", "end")
         .attr("dx", "-0.1em")
         .attr("dy", "0.7em")
         .attr("transform", "rotate(-45)")
-        .attr("stroke", textColor5)
+        .attr("stroke", textColor4)
         .attr({
-            'fill': textColor5, //x軸文字顏色
+            'fill': textColor4, //x軸文字顏色
             'stroke': 'none',
         }).style({
-            'font-size': '20px'
+            'font-size': axisTextSize4
         })
         .attr('font-family', 'Noto Sans TC');
 
@@ -90,28 +101,28 @@ d3.csv("./data/yearGroup.csv", function (error, yearGroupData) {
         .attr("class", "yearGroupYaxis")
         .call(yearGroupChartAxisY)
         .attr("fill", 'none')
-        .attr("stroke", textColor5)
+        .attr("stroke", textColor4)
         .selectAll("text")
-        .attr("stroke", textColor5)
+        .attr("stroke", textColor4)
         .attr({
-            'fill': textColor5, //y軸文字顏色
+            'fill': textColor4, //y軸文字顏色
             'stroke': 'none',
         }).style({
-            'font-size': '20px'
+            'font-size': axisTextSize4
         })
         .attr('font-family', 'Noto Sans TC');
 
 
     //繪出Y軸單位
     yearGroupSvg.append("text")
-        .attr("x", -5)
+        .attr("x", 30)
         .attr("y", -33)
         .attr("dy", "1em")
         .attr({
-            'fill': textColor5, // y軸文字顏色
+            'fill': textColor4, // y軸文字顏色
             'stroke': 'none',
         }).style({
-            'font-size': '20px'
+            'font-size': axisTextSize4
         })
         .attr('font-family', 'Noto Sans TC')
         .style("text-anchor", "end")
@@ -156,8 +167,8 @@ d3.csv("./data/yearGroup.csv", function (error, yearGroupData) {
         .attr("y", yearGroupChartHeight + yearGroupChartMargin.bottom - 15)
         .attr("text-anchor", "middle")
         .text("最高學歷為大學之失業率-按年齡分 (2011年-2016年)")
-        .attr("fill", textColor5)
-        .attr("font-size", "20px")
+        .attr("fill", textColor4)
+        .attr("font-size", axisTextSize4)
         .attr('font-family', 'Noto Sans TC');
 
     var yearGroupDropdown = d3.select("#yearGroup-select")
@@ -207,14 +218,14 @@ d3.csv("./data/yearGroup.csv", function (error, yearGroupData) {
             .duration(dataChangingTime2)
             .call(yearGroupChartAxisY)
             .attr("fill", 'none')
-            .attr("stroke", textColor5)
+            .attr("stroke", textColor4)
             .selectAll("text")
-            .attr("stroke", textColor5)
+            .attr("stroke", textColor4)
             .attr({
-                'fill': textColor5, //y軸文字顏色
+                'fill': textColor4, //y軸文字顏色
                 'stroke': 'none',
             }).style({
-                'font-size': '20px'
+                'font-size': axisTextSize4
             })
             .attr('font-family', 'Noto Sans TC');
 

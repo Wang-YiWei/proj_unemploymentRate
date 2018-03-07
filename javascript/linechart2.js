@@ -9,6 +9,17 @@ var containerWidth2 = document.getElementById('collegeSvg-container').clientWidt
 var linechartWidth2 = containerWidth2 - linechartMargin2.left - linechartMargin2.right;
 var linechartHeight2 = 400 - linechartMargin2.top - linechartMargin2.bottom;
 
+var axisTextSize = 20;
+
+if(containerWidth2 > 350){
+    axisTextSize = 20;
+}
+else if(containerWidth2 < 350 && containerWidth2 > 300){
+    axisTextSize = 18;
+}else {
+    axisTextSize = 16;
+}
+
 var maxPeople = 0;
 var minDate = new Date();
 var maxDate = new Date();
@@ -89,7 +100,7 @@ d3.csv("./data/college.csv")
                 'fill': textColor2, //x軸文字顏色
                 'stroke': 'none',
             }).style({
-                'font-size': '20px'
+                'font-size': axisTextSize
             })
             .attr('font-family', 'Noto Sans TC');
 
@@ -102,7 +113,7 @@ d3.csv("./data/college.csv")
                 'fill': textColor2, //y軸文字顏色
                 'stroke': 'none',
             }).style({
-                'font-size': '20px'
+                'font-size': axisTextSize
             })
             .attr('font-family', 'Noto Sans TC');
 
@@ -115,7 +126,7 @@ d3.csv("./data/college.csv")
                 'fill': textColor2, // x軸文字顏色
                 'stroke': 'none',
             }).style({
-                'font-size': '20px'
+                'font-size': axisTextSize
             })
             .attr('font-family', 'Noto Sans TC')
             .style("text-anchor", "start")
@@ -130,7 +141,7 @@ d3.csv("./data/college.csv")
                 'fill': textColor2, // y軸文字顏色
                 'stroke': 'none',
             }).style({
-                'font-size': '20px'
+                'font-size': axisTextSize
             })
             .attr('font-family', 'Noto Sans TC')
             .style("text-anchor", "end")
@@ -143,6 +154,6 @@ d3.csv("./data/college.csv")
             .attr("text-anchor", "middle")
             .text("歷年大學畢業生人數 (1994年-2016年)")
             .attr("fill", textColor2)
-            .attr("font-size", "20px")
+            .attr("font-size", axisTextSize)
             .attr('font-family', 'Noto Sans TC');
     });

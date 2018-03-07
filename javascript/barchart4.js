@@ -5,13 +5,13 @@ d3.csv("./data/salary.csv", function (error, salaryData) {
             top: 35,
             right: 20,
             bottom: 160,
-            left: 100
+            left: 90
         },
         salaryContainerWidth = document.getElementById("salarySvg-container").clientWidth,
         salaryChartWidth = salaryContainerWidth - salaryChartMargin.left - salaryChartMargin.right,
         salaryChartHeight = 450 - salaryChartMargin.top - salaryChartMargin.bottom;
 
-    var textColor4 = '#6E6E6E';
+    var textColor6 = '#6E6E6E';
     var salaryScaleX = d3.scale.ordinal()
         .rangeRoundBands([0, salaryChartWidth], .45);
 
@@ -70,15 +70,15 @@ d3.csv("./data/salary.csv", function (error, salaryData) {
         .attr("transform", "translate(0," + salaryChartHeight + ")")
         .call(salaryChartAxisX)
         .attr("fill", 'none')
-        .attr("stroke", textColor4)
+        .attr("stroke", textColor6)
         .selectAll("text")
         .style("text-anchor", "end")
         .attr("dx", "-0.1em")
         .attr("dy", "0.7em")
         .attr("transform", "rotate(-45)")
-        .attr("stroke", textColor4)
+        .attr("stroke", textColor6)
         .attr({
-            'fill': textColor4, //x軸文字顏色
+            'fill': textColor6, //x軸文字顏色
             'stroke': 'none',
         }).style({
             'font-size': '20px'
@@ -90,11 +90,11 @@ d3.csv("./data/salary.csv", function (error, salaryData) {
         .attr("class", "salaryYaxis")
         .call(salaryChartAxisY)
         .attr("fill", 'none')
-        .attr("stroke", textColor4)
+        .attr("stroke", textColor6)
         .selectAll("text")
-        .attr("stroke", textColor4)
+        .attr("stroke", textColor6)
         .attr({
-            'fill': textColor4, //y軸文字顏色
+            'fill': textColor6, //y軸文字顏色
             'stroke': 'none',
         }).style({
             'font-size': '20px'
@@ -108,7 +108,7 @@ d3.csv("./data/salary.csv", function (error, salaryData) {
         .attr("y", -33)
         .attr("dy", "1em")
         .attr({
-            'fill': textColor4, // y軸文字顏色
+            'fill': textColor6, // y軸文字顏色
             'stroke': 'none',
         }).style({
             'font-size': '20px'
@@ -156,8 +156,11 @@ d3.csv("./data/salary.csv", function (error, salaryData) {
         .attr("y", salaryChartHeight + salaryChartMargin.bottom - 15)
         .attr("text-anchor", "middle")
         .text("初任人員每人每月經常性薪資－按教育程度分 (2011年-2016年)")
-        .attr("fill", textColor4)
-        .attr("font-size", "20px")
+        .attr("fill", textColor6)
+        .attr("font-size", function(){
+            if(salaryContainerWidth / 35 > 20 ) return 20;
+            else return salaryContainerWidth / 35 ;
+        })
         .attr('font-family', 'Noto Sans TC');
 
     var salaryDropdown = d3.select("#salary-select")
@@ -207,11 +210,11 @@ d3.csv("./data/salary.csv", function (error, salaryData) {
             .duration(dataChangingTime2)
             .call(salaryChartAxisY)
             .attr("fill", 'none')
-            .attr("stroke", textColor4)
+            .attr("stroke", textColor6)
             .selectAll("text")
-            .attr("stroke", textColor4)
+            .attr("stroke", textColor6)
             .attr({
-                'fill': textColor4, //y軸文字顏色
+                'fill': textColor6, //y軸文字顏色
                 'stroke': 'none',
             }).style({
                 'font-size': '20px'

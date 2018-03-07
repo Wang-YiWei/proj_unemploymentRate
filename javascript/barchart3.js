@@ -5,29 +5,32 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
             top: 35,
             right: 20,
             bottom: 280,
-            left: 100
+            left: 70
         },
         prejobContainerWidth = document.getElementById("prejobSvg-container").clientWidth,
         prejobChartWidth = prejobContainerWidth - prejobChartMargin.left - prejobChartMargin.right,
         prejobChartHeight = 600 - prejobChartMargin.top - prejobChartMargin.bottom;
 
 
-    // var sizeIsL = 0,
-    //     sizeIsM = 0,
-    //     sizeIsS = 0,
-    //     sizeIsXS = 0;
-    // var fontSize1 = 20,
-    //     fontSize2 = 30;
+    var axisTextSize5 = 20;
+    console.log(prejobContainerWidth);
+    if (prejobContainerWidth >= 960 && prejobContainerWidth < 1200) {
+        axisTextSize5 = 18;
+    } else if (prejobContainerWidth >= 440 && prejobContainerWidth < 960) {
+        axisTextSize5 = 15;
+    } else if (prejobContainerWidth >= 390 && prejobContainerWidth < 440) {
+        axisTextSize5 = 10;
 
-    // if (prejobContainerWidth >= 1250) {
-    //     sizeIsL = 1;
-    // } else if ((prejobContainerWidth < 1250) && (prejobContainerWidth >= 700)) {
-    //     sizeIsM = 1;
-    // } else if ((prejobContainerWidth < 700) && (prejobContainerWidth >= 400)) {
-    //     sizeIsS = 1;
-    // } else if (prejobContainerWidth < 400) {
-    //     sizeIsXS = 1;
-    // }
+    } else if (prejobContainerWidth < 390 && prejobContainerWidth >= 330) {
+        axisTextSize5 = 7;
+
+    } else if (prejobContainerWidth < 330 && prejobContainerWidth >= 300) {
+        axisTextSize5 = 6;
+    } else {
+        axisTextSize5 = 4;
+    }
+
+    if(prejobContainerWidth < 450) prejobChartMargin.bottom = 180;
 
     var textColor5 = '#6E6E6E';
     var prejobScaleX = d3.scale.ordinal()
@@ -108,7 +111,7 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
             'fill': textColor5, //x軸文字顏色
             'stroke': 'none',
         }).style({
-            'font-size': '20px'
+            'font-size': axisTextSize5
         })
         .attr('font-family', 'Noto Sans TC');
 
@@ -124,21 +127,21 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
             'fill': textColor5, //y軸文字顏色
             'stroke': 'none',
         }).style({
-            'font-size': '20px'
+            'font-size': axisTextSize5
         })
         .attr('font-family', 'Noto Sans TC');
 
 
     //繪出Y軸單位
     prejobSvg.append("text")
-        .attr("x", -5)
+        .attr("x", 15)
         .attr("y", -33)
         .attr("dy", "1em")
         .attr({
             'fill': textColor5, // y軸文字顏色
             'stroke': 'none',
         }).style({
-            'font-size': '20px'
+            'font-size': axisTextSize5
         })
         .attr('font-family', 'Noto Sans TC')
         .style("text-anchor", "end")
@@ -184,7 +187,11 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
         .attr("text-anchor", "middle")
         .text("學歷為大學以上之原有工作之失業者失業前行業(2011年-2017年)")
         .attr("fill", textColor5)
-        .attr("font-size", "20px")
+        .attr("font-size", function () {
+            if (prejobContainerWidth / 35 > 20)
+                return 20;
+            else return prejobContainerWidth / 35 - 1;
+        })
         .attr('font-family', 'Noto Sans TC');
 
     var prejobDropdown = d3.select("#prejob-select")
@@ -199,7 +206,6 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
         sortedData[whichYear].sort(function (x, y) {
             return d3.descending(x.p_rate, y.p_rate);
         })
-        console.log(sortedData[whichYear]);
 
         prejobScaleX.domain(yearlyPrejobData[whichYear].map(function (d) {
             return d['prejob'];
@@ -250,7 +256,7 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
                 'fill': textColor5, //y軸文字顏色
                 'stroke': 'none',
             }).style({
-                'font-size': '20px'
+                'font-size': axisTextSize5
             })
             .attr('font-family', 'Noto Sans TC');
 
@@ -268,7 +274,7 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
                 'fill': textColor5, //y軸文字顏色
                 'stroke': 'none',
             }).style({
-                'font-size': '20px'
+                'font-size': axisTextSize5
             })
             .attr('font-family', 'Noto Sans TC');
 

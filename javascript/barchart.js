@@ -5,11 +5,29 @@ d3.csv("./data/reason.csv", function (error, reasonData) {
             top: 35,
             right: 20,
             bottom: 160,
-            left: 100
+            left: 70
         },
         barchartContainerWidth = document.getElementById("reasonSvg-container").clientWidth,
         barchartWidth = barchartContainerWidth - barchartMargin.left - barchartMargin.right,
         barchartHeight = 450 - barchartMargin.top - barchartMargin.bottom;
+
+    var axisTextSize3 = 20;
+    // console.log(barchartContainerWidth);
+    // console.log(barchartWidth / 15);
+    axisTextSize3 = (barchartWidth / 15) > 20 ? 20 :(barchartWidth / 15);
+
+    // if (containerWidth2 >= 415) {
+    //     axisTextSize3 = 20;
+    // } else if (containerWidth2 >= 350 && containerWidth2 < 415) {
+    //     axisTextSize3 = 18;
+    //     barchartMargin.left -= 25;
+    //     console.log("ttt");
+    // } else if (containerWidth2 >= 300 && containerWidth2 < 350) {
+    //     axisTextSize3 = 14;
+
+    // } else {
+    //     axisTextSize3 = 12;
+    // }
 
     var textColor3 = '#6E6E6E';
     var reasonScaleX = d3.scale.ordinal()
@@ -45,7 +63,7 @@ d3.csv("./data/reason.csv", function (error, reasonData) {
 
     var entireReasonData = [];
     var yearlyReasonData = [];
-    var entireYear = [2017,2016, 2015, 2014, 2013, 2012, 2011];
+    var entireYear = [2017, 2016, 2015, 2014, 2013, 2012, 2011];
 
     for (var i = 0; i < entireYear.length; ++i) {
         yearlyReasonData[i] = [];
@@ -85,7 +103,7 @@ d3.csv("./data/reason.csv", function (error, reasonData) {
             'stroke': 'none',
         })
         .style({
-            'font-size': '18px'
+            'font-size': axisTextSize3 - 2
         })
         .attr('font-family', 'Noto Sans TC');
 
@@ -101,20 +119,20 @@ d3.csv("./data/reason.csv", function (error, reasonData) {
             'fill': textColor3, //y軸文字顏色
             'stroke': 'none',
         }).style({
-            'font-size': '20px'
+            'font-size': axisTextSize3
         })
         .attr('font-family', 'Noto Sans TC');
 
     //繪出Y軸單位
     reasonSvg.append("text")
-        .attr("x", -5)
+        .attr("x", 20)
         .attr("y", -33)
         .attr("dy", "1em")
         .attr({
             'fill': textColor3, // y軸文字顏色
             'stroke': 'none',
         }).style({
-            'font-size': '20px'
+            'font-size': axisTextSize3
         })
         .attr('font-family', 'Noto Sans TC')
         .style("text-anchor", "end")
@@ -125,9 +143,9 @@ d3.csv("./data/reason.csv", function (error, reasonData) {
         .offset([-10, 0])
         .html(function (d) {
             if (d.reasons == "待遇太低" || d.reasons == "沒有工作機會") return d.reasons + " : <span style='color:#FF7777'>" + d.reasonRate + "</span> %";
-            else if (d.reasons == "學非所用")  return d.reasons + " : <span style='color:#76A665'>" + d.reasonRate + "</span> %";
+            else if (d.reasons == "學非所用") return d.reasons + " : <span style='color:#76A665'>" + d.reasonRate + "</span> %";
             else return d.reasons + " : <span style='color:#fff'>" + d.reasonRate + "</span> %";
-            
+
         })
 
     reasonSvg.call(reasonTip);
@@ -163,7 +181,11 @@ d3.csv("./data/reason.csv", function (error, reasonData) {
         .attr("text-anchor", "middle")
         .text("學歷為大學以上之失業者未就業之原因調查 (2011年-2017年)")
         .attr("fill", textColor3)
-        .attr("font-size", "20px")
+        .attr("font-size", function () {
+            if (barchartContainerWidth / 30 < 20)
+                return barchartContainerWidth / 30 - 1;
+            else return 20;
+        })
         .attr('font-family', 'Noto Sans TC');
 
     var dropdown = d3.select("#reason-select")
@@ -223,7 +245,7 @@ d3.csv("./data/reason.csv", function (error, reasonData) {
                 'fill': textColor3, //y軸文字顏色
                 'stroke': 'none',
             }).style({
-                'font-size': '20px'
+                'font-size': axisTextSize3
             })
             .attr('font-family', 'Noto Sans TC');
 

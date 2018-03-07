@@ -39,7 +39,8 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
     var sizeIsL = 0,
         sizeIsM = 0,
         sizeIsS = 0,
-        sizeIsXS = 0;
+        sizeIsXS = 0,
+        sizeIsXSS = 0;
     var fontSize1 = 20,
         fontSize2 = 30;
 
@@ -50,7 +51,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
 
     var originR = 7,
         bigR = 10;
-    console.log(containerWidth);
+   
     // var infoDivWidth = containerWidth / 5;
 
     var linechartMargin = {
@@ -61,9 +62,12 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
     };
 
     if (containerWidth >= 1250) {
+        infoWidth = 250;
         sizeIsL = 1;
     } else if ((containerWidth < 1250) && (containerWidth >= 768)) {
         sizeIsM = 1;
+        fontSize1 = 16;
+        fontSize2 = 24;
     } else if ((containerWidth < 768) && (containerWidth >= 375)) {
         sizeIsS = 1;
         fontSize1 = 16;
@@ -83,19 +87,15 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
         bigR = 6;
         
     }else if(containerWidth < 330){
+        sizeIsXSS = 1;
         infoWidth = 160;
         fontSize1 = 10;
         fontSize2 = 12;
     }
 
-    // console.log(containerWidth);
-    // console.log(infoDivWidth);
-    var linechartWidth = containerWidth - linechartMargin.left - linechartMargin.right;
-    // var linechartWidth = 1600 - infoDivWidth - linechartMargin.left - linechartMargin.right;
-    var linechartHeight = 600 - linechartMargin.top - linechartMargin.bottom;
 
-    // console.log(linechartWidth);
-    // console.log(linechartHeight);
+    var linechartWidth = containerWidth - linechartMargin.left - linechartMargin.right;
+    var linechartHeight = 600 - linechartMargin.top - linechartMargin.bottom;
 
 
     var scaleX = d3.scale.linear()
@@ -426,7 +426,8 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                                 else if (j == 8) return "研究所及以上 : " + data[i].graduate + "%";
                             })
                             .attr("font-size", function () {
-                                if (sizeIsXS) return fontSize1 - 2;
+                                if (sizeIsXSS) return fontSize1 + 1;                                
+                                else if (sizeIsXS) return fontSize1 - 2;
                                 else return fontSize1;
                             });
                     }
@@ -507,7 +508,9 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
 
                 if (i == 0) {
                     valY = parseInt(scaleY(data[n].total)) + linechartMargin.top;
-                    moveRight = 55;
+                    if(sizeIsL || sizeIsM) moveRight = 55;
+                    else if(sizeIsS) moveRight = 45;
+                    else moveRight = 35;
                     moveDown = 5;
                 } else if (i == 1) {
                     valY = parseInt(scaleY(data[n].primary)) + linechartMargin.top;
@@ -633,7 +636,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
             });
 
         legend.append('rect')
-            .attr("x", legendX + checkboxWidth)
+            .attr("x", legendX )
             .attr("y", legendY + elementOffsetY)
             .attr("id", function (d, i) {
                 //console.log("legend" + i);
@@ -652,7 +655,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
         for (var k = 0; k < 8; k++) {
             if (k == 6) {
                 infoSvg.append("foreignObject")
-                    .attr("x", legendX)
+                    .attr("x", legendX + legendWidth+5)
                     .attr("y", legendY + checkboxOffset * k)
                     .attr("width", checkboxWidth)
                     .attr("height", checkboxHeight)
@@ -661,7 +664,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                     .on("click", update_line);
             } else {
                 infoSvg.append("foreignObject")
-                    .attr("x", legendX)
+                    .attr("x", legendX+legendWidth+5)
                     .attr("y", legendY + checkboxOffset * k)
                     .attr("width", checkboxWidth)
                     .attr("height", checkboxHeight)
