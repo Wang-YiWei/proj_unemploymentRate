@@ -11,6 +11,24 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
         prejobChartWidth = prejobContainerWidth - prejobChartMargin.left - prejobChartMargin.right,
         prejobChartHeight = 600 - prejobChartMargin.top - prejobChartMargin.bottom;
 
+
+    // var sizeIsL = 0,
+    //     sizeIsM = 0,
+    //     sizeIsS = 0,
+    //     sizeIsXS = 0;
+    // var fontSize1 = 20,
+    //     fontSize2 = 30;
+
+    // if (prejobContainerWidth >= 1250) {
+    //     sizeIsL = 1;
+    // } else if ((prejobContainerWidth < 1250) && (prejobContainerWidth >= 700)) {
+    //     sizeIsM = 1;
+    // } else if ((prejobContainerWidth < 700) && (prejobContainerWidth >= 400)) {
+    //     sizeIsS = 1;
+    // } else if (prejobContainerWidth < 400) {
+    //     sizeIsXS = 1;
+    // }
+
     var textColor5 = '#6E6E6E';
     var prejobScaleX = d3.scale.ordinal()
         .rangeRoundBands([0, prejobChartWidth], .25);

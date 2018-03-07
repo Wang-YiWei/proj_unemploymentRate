@@ -26,13 +26,14 @@ p {
 }
 
 
-/* input[type="checkbox"]{
-    width: 25px;
-    height: 25px;
+input[type="checkbox"]{
+    width: 20px;
+    height: 20px;
     cursor: pointer;
-    -webkit-appearance: none;
-    appearance: none;
-} */
+    vertical-align:middle;
+    /* -webkit-appearance: none;
+    appearance: none; */
+}
 
 #reason-select {
     margin-left: 120px;

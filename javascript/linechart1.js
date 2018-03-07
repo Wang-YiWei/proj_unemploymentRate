@@ -35,22 +35,67 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
         minY = 1.5,
         maxY = 6;
 
-    //console.log(minYear);
 
+    var sizeIsL = 0,
+        sizeIsM = 0,
+        sizeIsS = 0,
+        sizeIsXS = 0;
+    var fontSize1 = 20,
+        fontSize2 = 30;
+
+    // var containerWidth = 960;
+    var containerWidth = document.getElementById('unemployedSvg-container').clientWidth;
+    var infoWidth = 200,
+        infoHeight = 190;
+
+    var originR = 7,
+        bigR = 10;
+    console.log(containerWidth);
+    // var infoDivWidth = containerWidth / 5;
 
     var linechartMargin = {
-        top: 40,
-        right: 140,
+        top: 10,
+        right: 80,
         bottom: 150,
-        left: 10
+        left: 50
     };
 
-    var containerWidth = document.getElementById('unemployedSvg-container').clientWidth*0.95;
-    var infoDivWidth = 300;
+    if (containerWidth >= 1250) {
+        sizeIsL = 1;
+    } else if ((containerWidth < 1250) && (containerWidth >= 768)) {
+        sizeIsM = 1;
+    } else if ((containerWidth < 768) && (containerWidth >= 375)) {
+        sizeIsS = 1;
+        fontSize1 = 16;
+        fontSize2 = 22;
+
+        originR = 5;
+        bigR = 8;
+    } else if (containerWidth < 375 && containerWidth >= 330) {
+        sizeIsXS = 1;
+        linechartMargin.left = 40;
+        infoWidth = 160;
+
+        fontSize1 = 14;
+        fontSize2 = 20;
+
+        originR = 4;
+        bigR = 6;
+        
+    }else if(containerWidth < 330){
+        infoWidth = 160;
+        fontSize1 = 10;
+        fontSize2 = 12;
+    }
+
     // console.log(containerWidth);
-    var linechartWidth = containerWidth - infoDivWidth - linechartMargin.left - linechartMargin.right;
-    // var linechartWidth = 960 - linechartMargin.left - linechartMargin.right;    
+    // console.log(infoDivWidth);
+    var linechartWidth = containerWidth - linechartMargin.left - linechartMargin.right;
+    // var linechartWidth = 1600 - infoDivWidth - linechartMargin.left - linechartMargin.right;
     var linechartHeight = 600 - linechartMargin.top - linechartMargin.bottom;
+
+    // console.log(linechartWidth);
+    // console.log(linechartHeight);
 
 
     var scaleX = d3.scale.linear()
@@ -72,13 +117,13 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
 
     unemployedSvg.data(data)
         .attr({
-            'width': linechartWidth + infoDivWidth + linechartMargin.left + linechartMargin.right,
+            'width': linechartWidth + linechartMargin.left + linechartMargin.right,
             'height': linechartHeight + linechartMargin.top + linechartMargin.bottom,
         }).style({
             // 'border': '1px solid #000'
             // 'background':rgba(170,170,170,0.15)
         })
-        .attr('transform', 'translate(' + linechartMargin.left + ',' + linechartMargin.top + ')')
+        // .attr('transform', 'translate(' + linechartMargin.left + ',' + linechartMargin.top + ')')
         .on("mousemove", linechartMove)
         .on("touchmove", linechartMove);
 
@@ -127,7 +172,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
     var lineColor3 = '#CA82FF'; // 國中4
     var lineColor4 = '#00B7C2'; // 高中2
     var lineColor5 = 'green'; // 高職3
-    var lineColor6 = '#C238B5'; // 專科6
+    var lineColor6 = '#111F4D'; // 專科6
     var lineColor7 = '#FFA600'; // 大學1
     var lineColor8 = 'blue'; // 研究所7
     var textColor = '#6E6E6E';
@@ -143,7 +188,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                     return lineColors[i];
                 },
                 'stroke-width': 2,
-                'transform': 'translate(' + (linechartMargin.left + infoDivWidth) + ', ' + (linechartMargin.top) + ')', //用translate挑整axisX,axisY的位置
+                'transform': 'translate(' + (linechartMargin.left) + ', ' + (linechartMargin.top) + ')', //用translate挑整axisX,axisY的位置
                 'fill': 'none',
                 'opacity': 0 //先讓一開始的opacity是0，之後fade in
             });
@@ -156,14 +201,14 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
             'class': 'axisX',
             'fill': 'none',
             'stroke': 'rgba(170,170,170,1)',
-            'transform': 'translate(' + (linechartMargin.left + infoDivWidth) + ', ' + (linechartHeight + linechartMargin.top) + ')' //用translate挑整axisX,axisY的位置
+            'transform': 'translate(' + (linechartMargin.left) + ', ' + (linechartHeight + linechartMargin.top) + ')' //用translate挑整axisX,axisY的位置
         })
         .selectAll('text')
         .attr({
             'fill': textColor, //x軸文字顏色
             'stroke': 'none',
         }).style({
-            'font-size': '20px'
+            'font-size': fontSize1
         })
         .attr('font-family', 'Noto Sans TC')
 
@@ -174,7 +219,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
             'class': 'axisY',
             'fill': 'none',
             'stroke': 'rgba(170,170,170,1)',
-            'transform': 'translate(' + (linechartMargin.left + infoDivWidth) + ',' + (linechartMargin.top) + ')' //用translate挑整axisX,axisY的位置
+            'transform': 'translate(' + (linechartMargin.left) + ',' + (linechartMargin.top) + ')' //用translate挑整axisX,axisY的位置
         })
         .selectAll("text")
         .attr({
@@ -182,25 +227,30 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
             'fill': textColor, // y軸文字顏色
             'stroke': 'none',
         }).style({
-            'font-size': '20px'
+            'font-size': fontSize1
         })
         .attr('font-family', 'Noto Sans TC');
 
     //繪出Y軸單位
     unemployedSvg.append("text")
-        .attr("x", 0 + linechartMargin.left + infoDivWidth)
+        .attr("x", 0 + linechartMargin.left + 38)
         .attr("y", 0)
         .attr("dy", "1em")
         .attr({
             'class': 'linechartYtext',
             'fill': textColor, // y軸文字顏色
             'stroke': 'none',
-        }).style({
-            'font-size': '20px'
         })
+        // .style({
+        //     'font-size': fontSize1
+        // })
         .attr('font-family', 'Noto Sans TC')
         .style("text-anchor", "middle")
-        .text("失業率(%)");
+        .text("失業率(%)")
+        .attr('font-size', function () {
+            if (sizeIsS || sizeIsXS) return fontSize1 - 2;
+            else return fontSize1;
+        });
 
     //繪出跟著滑鼠跑的線
     var flexibleLineColor = '#6465A5';
@@ -215,8 +265,6 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
         .style('opacity', 0);
 
     //創造資料的圓點並繪出
-    var originR = 7,
-        bigR = 10;
     var dots = [8]; //store 4 kind of value's array.
     var dotName = ['dots1', 'dots2', 'dots3', 'dots4', 'dots5', 'dots6', 'dots7', 'dots8']
     for (var j = 0; j < 8; ++j) {
@@ -230,7 +278,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                 return "dots" + i + " onLine" + j;
             })
             .attr('cx', function (d) {
-                return scaleX(d.x) + linechartMargin.left + infoDivWidth;
+                return scaleX(d.x) + linechartMargin.left;
             })
             .attr('cy', function (d) {
                 if (j == 0) return scaleY(d.total) + linechartMargin.top;
@@ -249,14 +297,17 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
             .attr("opacity", 0);
     }
 
+
+    var infoSvg = d3.select("#infoSvg")
+        .attr('width', containerWidth)
+        .attr("height", "250");
     //繪出圓點資訊
     var shineDuration = 400;
     var dotTextOffsetX = 60,
         dotTextOffsetY = 40;
-    var tips = unemployedSvg.append('g')
+    var tips = infoSvg.append('g')
         .attr('class', 'tips');
-    var infoWidth = 200,
-        infoHeight = 190;
+
     tips.append('rect')
         .attr('class', 'tips-border')
         .attr('width', infoWidth)
@@ -317,7 +368,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
 
             //show data
             for (var i = 0; i < data.length; ++i) {
-                if (Math.abs(mousePosOnLinechart[0] - (scaleX(data[i].x) + linechartMargin.left + infoDivWidth)) < shineDistance) {
+                if (Math.abs(mousePosOnLinechart[0] - (scaleX(data[i].x) + linechartMargin.left)) < shineDistance) {
                     dotIsShining++;
                     //讓點反覆閃爍
                     d3.selectAll(".dots" + i)
@@ -346,7 +397,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                         // .delay(10)
                         .attr('opacity', 0.4)
                         .attr("x", function () {
-                            return linechartMargin.left + 50;
+                            return (sizeIsL || sizeIsM) ? linechartMargin.left : 5;
                         })
                         .attr("y", function () {
                             return linechartMargin.top;
@@ -358,7 +409,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                             // .delay(10)
                             .attr("opacity", 1)
                             .attr("x", function () {
-                                return linechartMargin.left + 50;
+                                return (sizeIsL || sizeIsM) ? linechartMargin.left : 5;
                             })
                             .attr("y", function () {
                                 return linechartMargin.top;
@@ -373,6 +424,10 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                                 else if (j == 6) return "專科 : " + data[i].specialist + "%";
                                 else if (j == 7) return "大學 : " + data[i].college + "%";
                                 else if (j == 8) return "研究所及以上 : " + data[i].graduate + "%";
+                            })
+                            .attr("font-size", function () {
+                                if (sizeIsXS) return fontSize1 - 2;
+                                else return fontSize1;
                             });
                     }
                 } else if (dotIsShining != 0) { //當有某資料點正在閃爍且滑鼠離該資料點的x軸距離大於10的時候
@@ -395,9 +450,9 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
             //設定跟著滑鼠跑的那條線從長度從y = 0 到畫布的最底
             d3.select('#flexibleLine')
                 .style('opacity', function () {
-                    if (mousePosOnLinechart[0] < (scaleX(data[0].x) + linechartMargin.left + infoDivWidth))
+                    if (mousePosOnLinechart[0] < (scaleX(data[0].x) + linechartMargin.left))
                         return 0;
-                    else if (mousePosOnLinechart[0] > scaleX(data[data.length - 1].x) + linechartMargin.left + infoDivWidth + 10)
+                    else if (mousePosOnLinechart[0] > scaleX(data[data.length - 1].x) + linechartMargin.left + 10)
                         return 0;
                     else return 1;
                 })
@@ -411,34 +466,33 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
 
     }
 
-    var legendX = 80;
-    var legendY = 250;
-    var legendWidth = 50;
-    var legendHeight = 10;
-    var legendOffset = 30;
-
-
-    var checkboxWidth = 130;
-    var checkboxHeight = 30;
-    var checkboxOffset = 40;
-
-    var elementOffsetX = 10;
-    var elementOffsetY = 6;
-
     var all_type = ["\"total\"", "\"primary\"", "\"junior\"", "\"senior\"", "\"vocational\"", "\"specialist\"", "\"college\"", "\"graduate\""];
     var all_type2 = ["平均", "國小及以下", "國中", "高中", "高職", "專科", "大學", "研究所及以上"];
     var all_type3 = ["total", "primary", "junior", "senior", "vocational", "specialist", "college", "graduate"];
 
     // 此svg的標題
     unemployedSvg.append("text")
-        .attr("x", containerWidth / 1.8) // 先除0.9還原螢幕寬度，再切一半(除2)
+        .attr("x", containerWidth / 2)
         // .attr("x",infoDivWidth + (linechartWidth/2) +linechartMargin.left)
-        .attr("y", linechartHeight + linechartMargin.bottom)
+        .attr("y", linechartHeight + linechartMargin.bottom - 60)
         .attr("text-anchor", "middle")
         .text("失業率按教育程度（2011年-2016年）")
         .attr("fill", textColor)
-        .attr("font-size", "30px")
+        .attr("font-size", fontSize2)
         .attr('font-family', 'Noto Sans TC');
+
+    var legendX = infoWidth + 120;
+    var legendY = 150;
+    var legendWidth = ((containerWidth - legendX) / 9) * 0.5;
+    var legendHeight = 10;
+    var legendOffset = (containerWidth - legendX) / 9;
+
+    var checkboxWidth = 130;
+    var checkboxHeight = 30;
+    var checkboxOffset = (containerWidth - legendX) / 9;
+
+    var elementOffsetX = 10;
+    var elementOffsetY = 60;
 
     var n = data.length - 1;
     // 每條線後面的文字
@@ -446,36 +500,48 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
         unemployedSvg.append("text")
             .attr("transform", function () {
                 var valY;
+                var moveLeft = 0;
                 var moveRight = 0;
                 var moveUp = 0;
                 var moveDown = 0;
 
                 if (i == 0) {
                     valY = parseInt(scaleY(data[n].total)) + linechartMargin.top;
-                    moveRight = 40;
+                    moveRight = 55;
+                    moveDown = 5;
                 } else if (i == 1) {
                     valY = parseInt(scaleY(data[n].primary)) + linechartMargin.top;
-                    moveDown = 5;
                 } else if (i == 2) {
                     valY = parseInt(scaleY(data[n].junior)) + linechartMargin.top;
-                    moveDown = 7;
+                    // moveLeft = 10;
+                    moveDown = 25;
                 } else if (i == 3) {
                     valY = parseInt(scaleY(data[n].senior)) + linechartMargin.top;
-                    moveUp = 8;
+                    // moveLeft = 5;
+                    moveUp = 15;
                 } else if (i == 4) {
                     valY = parseInt(scaleY(data[n].vocational)) + linechartMargin.top;
-                    moveDown = 12;
+                    // moveLeft = 10;
+                    moveDown = 23;
                 } else if (i == 5) {
                     valY = parseInt(scaleY(data[n].specialist)) + linechartMargin.top;
-                    moveDown = 14;
-                } else if (i == 6) valY = parseInt(scaleY(data[n].college)) + linechartMargin.top;
-                else if (i == 7) valY = parseInt(scaleY(data[n].graduate)) + linechartMargin.top;
-                return "translate(" + (linechartWidth + infoDivWidth + moveRight + 15) + "," + (valY + moveDown - moveUp) + ")";
+                    // moveLeft = 15;
+                    moveDown = 25;
+                } else if (i == 6) {
+                    valY = parseInt(scaleY(data[n].college)) + linechartMargin.top;
+                    // moveLeft = 5;
+                    moveUp = 10;
+                } else if (i == 7) {
+                    valY = parseInt(scaleY(data[n].graduate)) + linechartMargin.top;
+                    // moveLeft = 95;
+                    moveUp = 5;
+                }
+                return "translate(" + (linechartWidth + moveRight - moveLeft + 45) + "," + (valY + moveDown - moveUp) + ")";
             })
             .attr("id", function () {
                 return "labeltext" + i;
             })
-            .attr("text-anchor", "start")
+            .attr("text-anchor", "end")
             .style("fill", function () {
                 return lineColors[i];
             })
@@ -485,59 +551,127 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
             .text(function () {
                 return all_type2[i];
             })
-            .attr("font-size", "20px")
+            .attr("font-size", fontSize1)
             .attr('font-family', 'Noto Sans TC');
     }
 
-    // checkbox 旁邊的色條
-    var legend = unemployedSvg.selectAll('.legend')
-        .data(all_type2)
-        .enter().append('g')
-        .attr("class", "legends")
-        .attr("transform", function (d, i) {
-            {
-                return "translate(0," + i * legendOffset + ")"
+    if (sizeIsL) {
+        // checkbox 旁邊的色條
+        var legend = infoSvg.selectAll('.legend')
+            .data(all_type2)
+            .enter().append('g')
+            .attr("class", "legends")
+            .attr("transform", function (d, i) {
+                {
+                    return "translate(" + i * legendOffset + ",0)"
+                }
+            })
+
+        legend.append('rect')
+            .attr("x", legendX)
+            .attr("y", legendY)
+            .attr("id", function (d, i) {
+                //console.log("legend" + i);
+                return "legend" + i;
+            })
+            .attr("width", legendWidth)
+            .attr("height", legendHeight)
+            .style("fill", function (d, i) {
+                return lineColors[i];
+            })
+            .style("opacity", function (d, i) {
+                return i == 6 ? 1 : 0.2;
+            })
+
+        // checkbox
+        for (var k = 0; k < 8; k++) {
+            if (k == 6) {
+                infoSvg.append("foreignObject")
+                    .attr("x", legendX + checkboxOffset * k)
+                    .attr("y", legendY - elementOffsetY)
+                    .attr("width", checkboxWidth)
+                    .attr("height", checkboxHeight)
+                    .append("xhtml:body")
+                    .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + " checked><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
+                    .on("click", update_line);
+            } else {
+                infoSvg.append("foreignObject")
+                    .attr("x", legendX + checkboxOffset * k)
+                    .attr("y", legendY - elementOffsetY)
+                    .attr("width", checkboxWidth)
+                    .attr("height", checkboxHeight)
+                    .append("xhtml:body")
+                    .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + "><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
+                    .on("click", update_line);
             }
-        })
-
-    legend.append('rect')
-        .attr("x", legendX)
-        .attr("y", legendY)
-        .attr("id", function (d, i) {
-            //console.log("legend" + i);
-            return "legend" + i;
-        })
-        .attr("width", legendWidth)
-        .attr("height", legendHeight)
-        .style("fill", function (d, i) {
-            return lineColors[i];
-        })
-        .style("opacity", function (d, i) {
-            return i == 6 ? 1 : 0.2;
-        })
-
-    // checkbox
-    for (var k = 0; k < 8; k++) {
-        if (k == 6) {
-            unemployedSvg.append("foreignObject")
-                .attr("x", legendX + legendWidth + elementOffsetX)
-                .attr("y", legendY + legendOffset * k - elementOffsetY)
-                .attr("width", checkboxWidth)
-                .attr("height", checkboxHeight)
-                .append("xhtml:body")
-                .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + " checked><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
-                .on("click", update_line);
+        }
+    } else {
+        //
+        if (sizeIsM) {
+            legendX = infoWidth + 11 + linechartMargin.left;
         } else {
-            unemployedSvg.append("foreignObject")
-                .attr("x", legendX + legendWidth + elementOffsetX)
-                .attr("y", legendY + legendOffset * k - elementOffsetY)
-                .attr("width", checkboxWidth)
-                .attr("height", checkboxHeight)
-                .append("xhtml:body")
-                .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + "><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
-                .on("click", update_line);
+            legendX = infoWidth + 11;
+        }
+        legendY = 10;
+        legendWidth = ((containerWidth - legendX) / 9) * 0.5;
+        legendHeight = 10;
+        legendOffset = 30;
+        checkboxWidth = 130;
+        checkboxHeight = 25;
+        checkboxOffset = 30;
+        elementOffsetX = 10;
+        elementOffsetY = 6;
+        // checkbox 旁邊的色條
+        var legend = infoSvg.selectAll('.legend')
+            .data(all_type2)
+            .enter().append('g')
+            .attr("class", "legends")
+            .attr("transform", function (d, i) {
+                {
+                    return "translate(0," + i * legendOffset + ")"
+                }
+            });
+
+        legend.append('rect')
+            .attr("x", legendX + checkboxWidth)
+            .attr("y", legendY + elementOffsetY)
+            .attr("id", function (d, i) {
+                //console.log("legend" + i);
+                return "legend" + i;
+            })
+            .attr("width", legendWidth)
+            .attr("height", legendHeight)
+            .style("fill", function (d, i) {
+                return lineColors[i];
+            })
+            .style("opacity", function (d, i) {
+                return i == 6 ? 1 : 0.2;
+            })
+
+        // checkbox
+        for (var k = 0; k < 8; k++) {
+            if (k == 6) {
+                infoSvg.append("foreignObject")
+                    .attr("x", legendX)
+                    .attr("y", legendY + checkboxOffset * k)
+                    .attr("width", checkboxWidth)
+                    .attr("height", checkboxHeight)
+                    .append("xhtml:body")
+                    .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + " checked><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
+                    .on("click", update_line);
+            } else {
+                infoSvg.append("foreignObject")
+                    .attr("x", legendX)
+                    .attr("y", legendY + checkboxOffset * k)
+                    .attr("width", checkboxWidth)
+                    .attr("height", checkboxHeight)
+                    .append("xhtml:body")
+                    .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + "><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
+                    .on("click", update_line);
+            }
         }
     }
+
 
     function update_line() {
         for (var i = 0; i < 8; i++) {
