@@ -124,9 +124,9 @@ d3.csv("./data/reason.csv", function (error, reasonData) {
         .attr('class', 'reason-d3-tip')
         .offset([-10, 0])
         .html(function (d) {
-            if (d.reasons == "待遇太低" || d.reasons == "沒有工作機會") return d.reasons + " : <span style='color:#FF7777'>" + d.reasonRate + "%</span>";
-            else if (d.reasons == "學非所用")  return d.reasons + " : <span style='color:#76A665'>" + d.reasonRate + "%</span>";
-            else return d.reasons + " : <span style='color:#fff'>" + d.reasonRate + "%</span>";
+            if (d.reasons == "待遇太低" || d.reasons == "沒有工作機會") return d.reasons + " : <span style='color:#FF7777'>" + d.reasonRate + "</span> %";
+            else if (d.reasons == "學非所用")  return d.reasons + " : <span style='color:#76A665'>" + d.reasonRate + "</span> %";
+            else return d.reasons + " : <span style='color:#fff'>" + d.reasonRate + "</span> %";
             
         })
 

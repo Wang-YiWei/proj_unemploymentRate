@@ -8,8 +8,6 @@ body {
 
 h1,
 h2,
-h4,
-h5,
 h6 {
     color: #6E6E6E;
     text-align: center;
@@ -27,6 +25,7 @@ p {
     font-family: 'Noto Sans TC';
 }
 
+
 /* input[type="checkbox"]{
     width: 25px;
     height: 25px;
@@ -40,5 +39,13 @@ p {
 }
 
 #salary-select {
+    margin-left: 120px;
+}
+
+#yearGroup-select {
+    margin-left: 120px;
+}
+
+#prejob-select {
     margin-left: 120px;
 }
