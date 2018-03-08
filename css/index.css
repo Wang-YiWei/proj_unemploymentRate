@@ -35,6 +35,7 @@ p {
     /* border: 2px solid black; */
     text-align: left;
     flex-basis: 49%;
+    min-width:300px
 }
 
 .flexbox-item-row{

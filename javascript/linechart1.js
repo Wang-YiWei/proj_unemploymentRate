@@ -609,7 +609,6 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
             }
         }
     } else {
-        //
         if (sizeIsM) {
             legendX = infoWidth + 11 + linechartMargin.left;
         } else {
