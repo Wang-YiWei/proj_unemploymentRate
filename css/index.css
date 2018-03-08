@@ -38,6 +38,11 @@ p {
     flex-basis: 49%;
 }
 
+.row{
+    flex-basis: 99%;
+    text-align: center;
+}
+
 
 
 input[type="checkbox"]{
