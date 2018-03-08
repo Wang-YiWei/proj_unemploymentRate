@@ -13,7 +13,7 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
 
 
     var axisTextSize5 = 20;
-    console.log(prejobContainerWidth);
+    // console.log(prejobContainerWidth);
     if (prejobContainerWidth >= 960 && prejobContainerWidth < 1200) {
         axisTextSize5 = 18;
     } else if (prejobContainerWidth >= 440 && prejobContainerWidth < 960) {

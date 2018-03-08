@@ -51,7 +51,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
 
     var originR = 7,
         bigR = 10;
-   
+
     // var infoDivWidth = containerWidth / 5;
 
     var linechartMargin = {
@@ -85,8 +85,8 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
 
         originR = 4;
         bigR = 6;
-        
-    }else if(containerWidth < 330){
+
+    } else if (containerWidth < 330) {
         sizeIsXSS = 1;
         infoWidth = 160;
         fontSize1 = 10;
@@ -426,7 +426,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                                 else if (j == 8) return "研究所及以上 : " + data[i].graduate + "%";
                             })
                             .attr("font-size", function () {
-                                if (sizeIsXSS) return fontSize1 + 1;                                
+                                if (sizeIsXSS) return fontSize1 + 1;
                                 else if (sizeIsXS) return fontSize1 - 2;
                                 else return fontSize1;
                             });
@@ -508,8 +508,8 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
 
                 if (i == 0) {
                     valY = parseInt(scaleY(data[n].total)) + linechartMargin.top;
-                    if(sizeIsL || sizeIsM) moveRight = 55;
-                    else if(sizeIsS) moveRight = 45;
+                    if (sizeIsL || sizeIsM) moveRight = 55;
+                    else if (sizeIsS) moveRight = 45;
                     else moveRight = 35;
                     moveDown = 5;
                 } else if (i == 1) {
@@ -619,7 +619,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
         legendWidth = ((containerWidth - legendX) / 9) * 0.5;
         legendHeight = 10;
         legendOffset = 30;
-        checkboxWidth = 130;
+        checkboxWidth = 140;
         checkboxHeight = 25;
         checkboxOffset = 30;
         elementOffsetX = 10;
@@ -636,7 +636,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
             });
 
         legend.append('rect')
-            .attr("x", legendX )
+            .attr("x", legendX)
             .attr("y", legendY + elementOffsetY)
             .attr("id", function (d, i) {
                 //console.log("legend" + i);
@@ -655,25 +655,27 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
         for (var k = 0; k < 8; k++) {
             if (k == 6) {
                 infoSvg.append("foreignObject")
-                    .attr("x", legendX + legendWidth+5)
+                    .attr("x", legendX + legendWidth + 5)
                     .attr("y", legendY + checkboxOffset * k)
                     .attr("width", checkboxWidth)
                     .attr("height", checkboxHeight)
                     .append("xhtml:body")
-                    .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + " checked><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
+                    .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + " checked><label for=" + all_type[k] + ">" + "<span class=\"checkboxtext\">" + all_type2[k] + "</span>" + "</label></form>")
                     .on("click", update_line);
             } else {
                 infoSvg.append("foreignObject")
-                    .attr("x", legendX+legendWidth+5)
+                    .attr("x", legendX + legendWidth + 5)
                     .attr("y", legendY + checkboxOffset * k)
                     .attr("width", checkboxWidth)
                     .attr("height", checkboxHeight)
                     .append("xhtml:body")
-                    .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + "><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
+                    .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + "><label for=" + all_type[k] + ">" + "<span class=\"checkboxtext\">" + all_type2[k] + "</span>" +"</label></form>")
                     .on("click", update_line);
             }
         }
     }
+
+    // 
 
 
     function update_line() {

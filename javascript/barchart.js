@@ -16,19 +16,6 @@ d3.csv("./data/reason.csv", function (error, reasonData) {
     // console.log(barchartWidth / 15);
     axisTextSize3 = (barchartWidth / 15) > 20 ? 20 :(barchartWidth / 15);
 
-    // if (containerWidth2 >= 415) {
-    //     axisTextSize3 = 20;
-    // } else if (containerWidth2 >= 350 && containerWidth2 < 415) {
-    //     axisTextSize3 = 18;
-    //     barchartMargin.left -= 25;
-    //     console.log("ttt");
-    // } else if (containerWidth2 >= 300 && containerWidth2 < 350) {
-    //     axisTextSize3 = 14;
-
-    // } else {
-    //     axisTextSize3 = 12;
-    // }
-
     var textColor3 = '#6E6E6E';
     var reasonScaleX = d3.scale.ordinal()
         .rangeRoundBands([0, barchartWidth], .25);
