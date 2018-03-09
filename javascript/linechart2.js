@@ -11,12 +11,11 @@ var linechartHeight2 = 400 - linechartMargin2.top - linechartMargin2.bottom;
 
 var axisTextSize = 20;
 
-if(containerWidth2 > 350){
+if (containerWidth2 > 350) {
     axisTextSize = 20;
-}
-else if(containerWidth2 < 350 && containerWidth2 > 300){
+} else if (containerWidth2 < 350 && containerWidth2 > 300) {
     axisTextSize = 18;
-}else {
+} else {
     axisTextSize = 16;
 }
 
@@ -56,7 +55,7 @@ d3.csv("./data/college.csv")
             .orient("left")
             .scale(yScale)
             .ticks(10);
-            
+
         var xAxis = d3.svg.axis()
             .orient("bottom")
             .scale(xScale)
@@ -149,7 +148,7 @@ d3.csv("./data/college.csv")
 
         // 此svg的標題
         linechartSvg2.append("text")
-            .attr("x", containerWidth2 / 2 )
+            .attr("x", containerWidth2 / 2)
             .attr("y", linechartHeight2 + linechartMargin2.bottom)
             .attr("text-anchor", "middle")
             .text("歷年大學畢業生人數 (1994年-2016年)")
