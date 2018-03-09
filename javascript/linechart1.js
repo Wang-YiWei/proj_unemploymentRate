@@ -121,7 +121,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
             'height': linechartHeight + linechartMargin.top + linechartMargin.bottom,
         }).style({
             // 'border': '1px solid #000'
-            // 'background':rgba(170,170,170,0.15)
+            'background':"#f7f7f7"
         })
         // .attr('transform', 'translate(' + linechartMargin.left + ',' + linechartMargin.top + ')')
         .on("mousemove", linechartMove)
