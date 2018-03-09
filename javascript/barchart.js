@@ -19,9 +19,6 @@ d3.csv("./data/reason.csv", function (error, reasonData) {
             barchartWidth = barchartContainerWidth - barchartMargin.left - barchartMargin.right,
             barchartHeight = 450 - barchartMargin.top - barchartMargin.bottom;
 
-            if(barchartContainerWidth > 300)
-            barchartContainerWidth = 300;
-
         var axisTextSize3 = 20;
         // console.log(barchartContainerWidth);
         // console.log(barchartWidth / 15);
