@@ -192,7 +192,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                     'fill': 'none',
                 })
                 .attr("opacity", function () {
-                    return firstTime == 1 ? 0 : (i == 6) ? 1 : 0.2; //先讓一開始的opacity是0，之後fade in
+                    return (i == 6) ? 1 : 0.2;
                 });
         }
 
@@ -297,7 +297,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                 })
                 .attr('r', originR)
                 .attr("opacity", function () {
-                    return firstTime == 1 ? 0 : (j == 6) ? 1 : 0.2; //先讓一開始的opacity是0，之後fade in                    
+                    return (j == 6) ? 1 : 0.2;                     
                 });
         }
 
@@ -382,25 +382,25 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
         var dotIsShining = 0; //判斷是否有某資料點正在閃爍
         var shineDistance = 10;
 
-        //讓線跟點淡入
-        if (firstTime == 1) {
-            var order = [6, 3, 2, 4, 0, 7, 5, 1];
-            for (var i = 0; i < 8; i++) {
-                d3.select(".historylines" + order[i]).transition().duration(500).delay(300 * i).style("opacity", function () {
-                    return i == 0 ? 1 : 0.2;
-                });
-                for (var j = 0; j < data.length; ++j) {
-                    d3.selectAll(".dots" + j)
-                        .filter(".onLine" + order[i])
-                        .transition()
-                        .duration(500)
-                        .delay(300 * i)
-                        .style("opacity", function () {
-                            return i == 0 ? 1 : 0.2;
-                        });
-                }
-            }
-        }
+        // //讓線跟點淡入
+        // if (firstTime == 1) {
+        //     var order = [6, 3, 2, 4, 0, 7, 5, 1];
+        //     for (var i = 0; i < 8; i++) {
+        //         d3.select(".historylines" + order[i]).transition().duration(500).delay(300 * i).style("opacity", function () {
+        //             return i == 0 ? 1 : 0.2;
+        //         });
+        //         for (var j = 0; j < data.length; ++j) {
+        //             d3.selectAll(".dots" + j)
+        //                 .filter(".onLine" + order[i])
+        //                 .transition()
+        //                 .duration(500)
+        //                 .delay(300 * i)
+        //                 .style("opacity", function () {
+        //                     return i == 0 ? 1 : 0.2;
+        //                 });
+        //         }
+        //     }
+        // }
 
         // 輔助文字
         var usageText = unemployedSvg.append("text")
@@ -417,29 +417,17 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
             .attr("fill", textColor)
             .attr("font-size", fontSize1)
             .attr('font-family', 'Noto Sans TC')
-            .attr("opacity", 0.3);
+            .attr("opacity", 0.2);
 
 
         if (firstTime == 1) {
-            dataIsChanging = 1;
-            setTimeout(function () {
-                dataIsChanging = 0;
-            }, 2500);
-
             usageText.transition()
                 .duration(3 * shineDuration)
-                .attr("font-size", fontSize1 + 3)
-                .transition()
-                .duration(3 * shineDuration)
-                .attr("font-size", fontSize1)
-                .transition()
-                .duration(3 * shineDuration)
-                .attr("font-size", fontSize1 + 3)
+                .attr("font-size", fontSize1 + 2)
                 .transition()
                 .duration(3 * shineDuration)
                 .attr("font-size", fontSize1);
         }
-
 
 
         function linechartMove(d, i) {
