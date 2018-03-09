@@ -35,19 +35,18 @@ p {
     /* border: 2px solid black; */
     text-align: left;
     flex-basis: 49%;
+    min-width: 300px;
 }
 
-.flexbox-item-row{
+.flexbox-item-row {
     flex-basis: 100%;
 }
 
-
-
-input[type="checkbox"]{
+input[type="checkbox"] {
     width: 20px;
     height: 20px;
     cursor: pointer;
-    vertical-align:middle;
+    vertical-align: middle;
     /* -webkit-appearance: none;
     appearance: none; */
 }
