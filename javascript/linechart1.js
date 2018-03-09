@@ -100,6 +100,9 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
 
         var linechartWidth = containerWidth - linechartMargin.left - linechartMargin.right;
         var linechartHeight = 0.88 * window.innerHeight - 64 - 250 - linechartMargin.top - linechartMargin.bottom;
+        if(linechartHeight < 300 ){
+            linechartHeight = 300;
+        }
         var scaleX = d3.scale.linear()
             .range([0, linechartWidth])
             .domain([minX, maxX]);
