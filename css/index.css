@@ -43,21 +43,6 @@ p {
     flex-basis: 100%;
 }
 
-.centered{
-    /* display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content:flex-start;
-    align-items:center; */
-
-    /* align-items: center; */
-    /* text-align: left; */
-    /* padding:5px 10px; */
-    /* align-self : center; */
-    /* padding-left:11%; */
-}
-
-
 input[type="checkbox"] {
     width: 20px;
     height: 20px;
