@@ -42,6 +42,11 @@ p {
     flex-basis: 100%;
 }
 
+.pull-right{
+    margin-left:10%;
+}
+
+
 input[type="checkbox"] {
     width: 20px;
     height: 20px;
