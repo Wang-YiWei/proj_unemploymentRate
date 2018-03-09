@@ -6,6 +6,8 @@
     color: #fff;
     border-radius: 2px;
     font-family: 'Noto Sans TC';
+    z-index:10000;
+
 }
 
 /* Creates a small triangle extender for the tooltip */

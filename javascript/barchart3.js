@@ -4,15 +4,16 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
     var prejobChartMargin = {
             top: 35,
             right: 20,
-            bottom: 280,
+            bottom: 250,
             left: 70
         },
         prejobContainerWidth = document.getElementById("prejobSvg-container").clientWidth,
         prejobChartWidth = prejobContainerWidth - prejobChartMargin.left - prejobChartMargin.right,
         prejobChartHeight = 600 - prejobChartMargin.top - prejobChartMargin.bottom;
 
-
+        console.log(prejobContainerWidth);
     var axisTextSize5 = 20;
+    var titleOffset = 15;
     // console.log(prejobContainerWidth);
     if (prejobContainerWidth >= 960 && prejobContainerWidth < 1200) {
         axisTextSize5 = 18;
@@ -21,11 +22,15 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
     } else if (prejobContainerWidth >= 390 && prejobContainerWidth < 440) {
         axisTextSize5 = 10;
 
+
     } else if (prejobContainerWidth < 390 && prejobContainerWidth >= 330) {
         axisTextSize5 = 7;
-
+        prejobChartMargin.bottom = 50;
     } else if (prejobContainerWidth < 330 && prejobContainerWidth >= 300) {
         axisTextSize5 = 6;
+        titleOffset = 80;
+        prejobChartMargin.bottom = 100;
+        prejobChartHeight = 500 - prejobChartMargin.top - prejobChartMargin.bottom;
     } else {
         axisTextSize5 = 4;
     }
@@ -180,10 +185,10 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
         .on('mouseover', prejobTip.show)
         .on('mouseout', prejobTip.hide);
 
-    // 此svg的標題
+    // 此svg的標題15
     prejobSvg.append("text")
         .attr("x", prejobContainerWidth / 2 - prejobChartMargin.left)
-        .attr("y", prejobChartHeight + prejobChartMargin.bottom - 15)
+        .attr("y", prejobChartHeight + prejobChartMargin.bottom - titleOffset)
         .attr("text-anchor", "middle")
         .text("學歷為大學以上之原有工作之失業者失業前行業(2011年-2017年)")
         .attr("fill", textColor5)
