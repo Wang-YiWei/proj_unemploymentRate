@@ -5,7 +5,7 @@ var itemWidth;
 
 var allP = document.getElementsByTagName("p");
 
-if (deviceWidth <= 420) {
+if (deviceWidth <= 600) {
     for (var i = 0; i < allP.length; i++)
         allP[i].style.fontSize = 16;
 
