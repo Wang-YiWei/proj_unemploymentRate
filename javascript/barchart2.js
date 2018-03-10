@@ -14,6 +14,9 @@ d3.csv("./data/yearGroup.csv", function (error, yearGroupData) {
             yearGroupChartWidth = yearGroupContainerWidth - yearGroupChartMargin.left - yearGroupChartMargin.right,
             yearGroupChartHeight = 450 - yearGroupChartMargin.top - yearGroupChartMargin.bottom;
 
+        if (yearGroupChartHeight > window.innerHeight * 0.9)
+            yearGroupChartHeight = window.innerHeight * 0.9 - yearGroupChartMargin.top - yearGroupChartMargin.bottom;
+
         var axisTextSize4 = 20;
         // console.log(yearGroupContainerWidth);
         // console.log(yearGroupChartWidth/24);
@@ -237,7 +240,7 @@ d3.csv("./data/yearGroup.csv", function (error, yearGroupData) {
 
         }
     }
-    
+
     yearGroupSvgDraw();
 
     window.addEventListener("resize", function () {

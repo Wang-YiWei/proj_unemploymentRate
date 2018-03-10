@@ -37,6 +37,9 @@ d3.csv("./data/college.csv")
             var linechartWidth2 = containerWidth2 - linechartMargin2.left - linechartMargin2.right;
             var linechartHeight2 = 400 - linechartMargin2.top - linechartMargin2.bottom;
 
+            if (linechartHeight2 > window.innerHeight * 0.9)
+                linechartHeight2 = window.innerHeight * 0.9 - linechartMargin2.top - linechartMargin2.bottom;
+
             var axisTextSize = 20;
 
             if (containerWidth2 > 350) {

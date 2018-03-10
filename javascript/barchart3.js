@@ -14,6 +14,9 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
             prejobChartWidth = prejobContainerWidth - prejobChartMargin.left - prejobChartMargin.right,
             prejobChartHeight = 600 - prejobChartMargin.top - prejobChartMargin.bottom;
 
+        if (prejobChartHeight > window.innerHeight * 0.9)
+            prejobChartHeight = window.innerHeight * 0.9  - prejobChartMargin.top - prejobChartMargin.bottom;
+
         var axisTextSize5 = 20;
         var titleOffset = 15;
         // console.log(prejobContainerWidth);

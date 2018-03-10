@@ -14,8 +14,11 @@ d3.csv("./data/salary.csv", function (error, salaryData) {
             salaryChartWidth = salaryContainerWidth - salaryChartMargin.left - salaryChartMargin.right,
             salaryChartHeight = 450 - salaryChartMargin.top - salaryChartMargin.bottom;
 
+        if (salaryChartHeight > window.innerHeight * 0.9)
+            salaryChartHeight = window.innerHeight * 0.9 - salaryChartMargin.top - salaryChartMargin.bottom;
+
         var axisTextSize6 = 20;
-        if(salaryContainerWidth > 600)  axisTextSize6 = 20;
+        if (salaryContainerWidth > 600) axisTextSize6 = 20;
         else axisTextSize6 = 16;
         var textColor6 = '#6E6E6E';
         var salaryScaleX = d3.scale.ordinal()
