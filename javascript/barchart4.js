@@ -14,12 +14,15 @@ d3.csv("./data/salary.csv", function (error, salaryData) {
             salaryChartWidth = salaryContainerWidth - salaryChartMargin.left - salaryChartMargin.right,
             salaryChartHeight = 450 - salaryChartMargin.top - salaryChartMargin.bottom;
 
-        if (salaryChartHeight > window.innerHeight * 0.9)
-            salaryChartHeight = window.innerHeight * 0.9 - salaryChartMargin.top - salaryChartMargin.bottom;
+        // if (salaryChartHeight > window.innerHeight * 0.9 - 76)
+        //     salaryChartHeight = window.innerHeight * 0.9 - salaryChartMargin.top - salaryChartMargin.bottom - 76;
 
         var axisTextSize6 = 20;
         if (salaryContainerWidth > 600) axisTextSize6 = 20;
         else axisTextSize6 = 16;
+
+        salaryChartMargin.bottom = axisTextSize6 * 8;
+        
         var textColor6 = '#6E6E6E';
         var salaryScaleX = d3.scale.ordinal()
             .rangeRoundBands([0, salaryChartWidth], .45);
@@ -160,18 +163,19 @@ d3.csv("./data/salary.csv", function (error, salaryData) {
             .on('mouseover', salaryTip.show)
             .on('mouseout', salaryTip.hide);
 
+
+        var titleSize4;
+        if (salaryContainerWidth / 35 > 20) titleSize4 =  20;
+        else titleSize4 = salaryContainerWidth / 35;
         // 此svg的標題
         salarySvg.append("text")
             .attr("transform", "translate(" + salaryChartMargin.left + "," + salaryChartMargin.top + ")")
             .attr("x", salaryContainerWidth / 2 - salaryChartMargin.left)
-            .attr("y", salaryChartHeight + salaryChartMargin.bottom - 15)
+            .attr("y", salaryChartHeight + salaryChartMargin.bottom - titleSize4)
             .attr("text-anchor", "middle")
             .text("初任人員每人每月經常性薪資－按教育程度分 (2011年-2016年)")
             .attr("fill", textColor6)
-            .attr("font-size", function () {
-                if (salaryContainerWidth / 35 > 20) return 20;
-                else return salaryContainerWidth / 35;
-            })
+            .attr("font-size", titleSize4)
             .attr('font-family', 'Noto Sans TC');
 
         var salaryDropdown = d3.select("#salary-select")

@@ -6,7 +6,7 @@ var allP = document.getElementsByTagName("p");
 function setWidth() {
     var deviceWidth = document.getElementById("main-content").clientWidth;
     var flexboxContainerWidth = document.getElementsByClassName("flexbox-container")[1].clientWidth;
-    console.log(flexboxContainerWidth);
+    // console.log(flexboxContainerWidth);
     if (flexboxContainerWidth <= 550) {
         for (var i = 0; i < allP.length; i++)
             allP[i].style.fontSize = 16;
@@ -30,7 +30,7 @@ function setWidth() {
                 allP[i].style.fontSize = 16;
 
         for (var i = 0; i < flexItems.length; i++) {
-            console.log(flexItems[i]);
+            // console.log(flexItems[i]);
             flexItems[i].style.width = flexboxContainerWidth * 0.49;
             flexItems[i].style.flexBasis = "49%";
         }

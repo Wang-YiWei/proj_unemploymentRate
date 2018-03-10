@@ -14,8 +14,8 @@ d3.csv("./data/yearGroup.csv", function (error, yearGroupData) {
             yearGroupChartWidth = yearGroupContainerWidth - yearGroupChartMargin.left - yearGroupChartMargin.right,
             yearGroupChartHeight = 450 - yearGroupChartMargin.top - yearGroupChartMargin.bottom;
 
-        if (yearGroupChartHeight > window.innerHeight * 0.9)
-            yearGroupChartHeight = window.innerHeight * 0.9 - yearGroupChartMargin.top - yearGroupChartMargin.bottom;
+        // if (yearGroupChartHeight > window.innerHeight * 0.9 -76)
+        //     yearGroupChartHeight = window.innerHeight * 0.9 - yearGroupChartMargin.top - yearGroupChartMargin.bottom-76;
 
         var axisTextSize4 = 20;
         // console.log(yearGroupContainerWidth);
@@ -27,6 +27,8 @@ d3.csv("./data/yearGroup.csv", function (error, yearGroupData) {
         // console.log(axisTextSize4);
 
         if (yearGroupContainerWidth < 450) yearGroupChartMargin.bottom = 100;
+
+        yearGroupChartMargin.bottom = axisTextSize4 * 9;
 
         var textColor4 = '#6E6E6E';
         var yearGroupScaleX = d3.scale.ordinal()
@@ -172,7 +174,7 @@ d3.csv("./data/yearGroup.csv", function (error, yearGroupData) {
         yearGroupSvg.append("text")
             .attr("transform", "translate(" + yearGroupChartMargin.left + "," + yearGroupChartMargin.top + ")")
             .attr("x", yearGroupContainerWidth / 2 - yearGroupChartMargin.left)
-            .attr("y", yearGroupChartHeight + yearGroupChartMargin.bottom - 15)
+            .attr("y", yearGroupChartHeight + yearGroupChartMargin.bottom - axisTextSize4)
             .attr("text-anchor", "middle")
             .text("最高學歷為大學之失業率-按年齡分 (2011年-2016年)")
             .attr("fill", textColor4)

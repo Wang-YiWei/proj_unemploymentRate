@@ -8,16 +8,12 @@ body {
 
 h1,
 h2,
+h3,
 h6 {
     color: #6E6E6E;
     text-align: center;
 }
 
-h3 {
-    text-align: left;
-    color: #6E6E6E;
-    /* border-left: 4px solid orange; */
-}
 
 p {
     color: #6E6E6E;

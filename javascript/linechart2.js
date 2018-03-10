@@ -37,8 +37,8 @@ d3.csv("./data/college.csv")
             var linechartWidth2 = containerWidth2 - linechartMargin2.left - linechartMargin2.right;
             var linechartHeight2 = 400 - linechartMargin2.top - linechartMargin2.bottom;
 
-            if (linechartHeight2 > window.innerHeight * 0.9)
-                linechartHeight2 = window.innerHeight * 0.9 - linechartMargin2.top - linechartMargin2.bottom;
+            // if (linechartHeight2 > window.innerHeight * 0.9 - 56)
+            //     linechartHeight2 = window.innerHeight * 0.9 - linechartMargin2.top - linechartMargin2.bottom - 56;
 
             var axisTextSize = 20;
 
@@ -49,7 +49,6 @@ d3.csv("./data/college.csv")
             } else {
                 axisTextSize = 16;
             }
-
 
             var yScale = d3.scale.linear()
                 .domain([0, maxPeople])

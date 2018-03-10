@@ -19,13 +19,15 @@ d3.csv("./data/reason.csv", function (error, reasonData) {
             barchartWidth = barchartContainerWidth - barchartMargin.left - barchartMargin.right,
             barchartHeight = 450 - barchartMargin.top - barchartMargin.bottom;
 
-        if (barchartHeight > window.innerHeight * 0.9)
-            barchartHeight = window.innerHeight * 0.9 - barchartMargin.top - barchartMargin.bottom;
+        // if (barchartHeight > window.innerHeight * 0.9 - 76)
+        //     barchartHeight = window.innerHeight * 0.9 - barchartMargin.top - barchartMargin.bottom - 76;
 
         var axisTextSize3 = 20;
         // console.log(barchartContainerWidth);
         // console.log(barchartWidth / 15);
         axisTextSize3 = (barchartWidth / 15) > 20 ? 20 : (barchartWidth / 15);
+
+        barchartMargin.bottom = axisTextSize3 * 10;
 
         var textColor3 = '#6E6E6E';
         var reasonScaleX = d3.scale.ordinal()
@@ -170,19 +172,20 @@ d3.csv("./data/reason.csv", function (error, reasonData) {
             .on('mouseover', reasonTip.show)
             .on('mouseout', reasonTip.hide);
 
+        var titleSize1;
+        if (barchartContainerWidth / 30 < 20)
+            titleSize1 = barchartContainerWidth / 30 - 1;
+        else titleSize1 = 20;
+
         // 此svg的標題
         reasonSvg.append("text")
             .attr("transform", "translate(" + barchartMargin.left + "," + barchartMargin.top + ")")
             .attr("x", barchartContainerWidth / 2 - barchartMargin.left)
-            .attr("y", barchartHeight + barchartMargin.bottom - 5)
+            .attr("y", barchartHeight + barchartMargin.bottom - titleSize1)
             .attr("text-anchor", "middle")
             .text("學歷為大學以上之失業者未就業之原因調查 (2011年-2017年)")
             .attr("fill", textColor3)
-            .attr("font-size", function () {
-                if (barchartContainerWidth / 30 < 20)
-                    return barchartContainerWidth / 30 - 1;
-                else return 20;
-            })
+            .attr("font-size", titleSize1)
             .attr('font-family', 'Noto Sans TC');
 
         var dropdown = d3.select("#reason-select")
