@@ -48,7 +48,6 @@ d3.csv("./data/college.csv")
             }
 
 
-
             var yScale = d3.scale.linear()
                 .domain([0, maxPeople])
                 .range([linechartHeight2, 0]);

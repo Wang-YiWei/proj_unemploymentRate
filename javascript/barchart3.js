@@ -23,8 +23,6 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
             axisTextSize5 = 15;
         } else if (prejobContainerWidth >= 390 && prejobContainerWidth < 440) {
             axisTextSize5 = 10;
-
-
         } else if (prejobContainerWidth < 390 && prejobContainerWidth >= 330) {
             axisTextSize5 = 7;
             prejobChartMargin.bottom = 50;
@@ -38,6 +36,8 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
         }
 
         if (prejobContainerWidth < 450) prejobChartMargin.bottom = 180;
+
+        console.log(prejobChartWidth + prejobChartMargin.left + prejobChartMargin.right);
 
         var textColor5 = '#6E6E6E';
         var prejobScaleX = d3.scale.ordinal()

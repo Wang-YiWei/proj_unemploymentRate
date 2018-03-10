@@ -1,27 +1,43 @@
 var textItems = document.getElementsByClassName("centered");
 var flexItems = document.getElementsByClassName("flexbox-item");
-var deviceWidth = window.innerWidth;
-var itemWidth;
 
 var allP = document.getElementsByTagName("p");
 
-window.addEventListener("resize", function () {
-
-    if (deviceWidth <= 600) {
+function setWidth() {
+    var deviceWidth = document.getElementById("main-content").clientWidth;
+    var flexboxContainerWidth = document.getElementsByClassName("flexbox-container")[1].clientWidth;
+    console.log(flexboxContainerWidth);
+    if (flexboxContainerWidth <= 550) {
         for (var i = 0; i < allP.length; i++)
             allP[i].style.fontSize = 16;
 
-        for (var i = 0; i < flexItems.length; i++)
-            flexItems[i].style.minWidth = deviceWidth * 0.9;
+        for (var i = 0; i < flexItems.length; i++) {
+            flexItems[i].style.flexBasis = "99%";
+            flexItems[i].style.width = flexboxContainerWidth * 0.9;
+        }
+
 
         for (var i = 0; i < textItems.length; i++) {
-            itemWidth = flexItems[i].clientWidth;
-            textItems[i].style.paddingLeft = deviceWidth * 0.05;
-            textItems[i].style.paddingRight = deviceWidth * 0.05;
+            textItems[i].style.paddingLeft = flexboxContainerWidth * 0.05;
+            textItems[i].style.paddingRight = flexboxContainerWidth * 0.05;
         }
     } else {
-        for (var i = 0; i < allP.length; i++)
-            allP[i].style.fontSize = 20;
+        if (flexboxContainerWidth >= 700)
+            for (var i = 0; i < allP.length; i++)
+                allP[i].style.fontSize = 20;
+        else
+            for (var i = 0; i < allP.length; i++)
+                allP[i].style.fontSize = 16;
+
+        for (var i = 0; i < flexItems.length; i++) {
+            console.log(flexItems[i]);
+            flexItems[i].style.width = flexboxContainerWidth * 0.49;
+            flexItems[i].style.flexBasis = "49%";
+        }
     }
 
-});
+}
+
+setWidth();
+
+window.addEventListener("resize", setWidth);
