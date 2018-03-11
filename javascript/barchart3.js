@@ -17,7 +17,10 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
 
         var axisTextSize5 = 20;
         // console.log(prejobContainerWidth);
-        if (prejobContainerWidth >= 960 && prejobContainerWidth < 1200) {
+
+        if (prejobContainerWidth >= 1200) {
+            axisTextSize5 = 20;
+        } else if (prejobContainerWidth >= 960 && prejobContainerWidth < 1200) {
             axisTextSize5 = 18;
         } else if (prejobContainerWidth >= 440 && prejobContainerWidth < 960) {
             axisTextSize5 = 15;
@@ -198,7 +201,7 @@ d3.csv("./data/prejob.csv", function (error, prejobData) {
         prejobSvg.append("text")
             .attr("transform", "translate(" + prejobChartMargin.left + "," + prejobChartMargin.top + ")")
             .attr("x", prejobContainerWidth / 2 - prejobChartMargin.left)
-            .attr("y", prejobChartHeight + prejobChartMargin.bottom- titleSize3)
+            .attr("y", prejobChartHeight + prejobChartMargin.bottom - titleSize3)
             .attr("text-anchor", "middle")
             .text("學歷為大學以上之原有工作之失業者失業前行業(2011年-2017年)")
             .attr("fill", textColor5)

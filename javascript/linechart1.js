@@ -100,7 +100,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
 
         var linechartWidth = containerWidth - linechartMargin.left - linechartMargin.right;
         var linechartHeight = 0.88 * window.innerHeight - 64 - 250 - linechartMargin.top - linechartMargin.bottom;
-        if(linechartHeight < 300 ){
+        if (linechartHeight < 300) {
             linechartHeight = 300;
         }
         var scaleX = d3.scale.linear()
@@ -297,7 +297,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                 })
                 .attr('r', originR)
                 .attr("opacity", function () {
-                    return (j == 6) ? 1 : 0.2;                     
+                    return (j == 6) ? 1 : 0.2;
                 });
         }
 
@@ -382,35 +382,15 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
         var dotIsShining = 0; //判斷是否有某資料點正在閃爍
         var shineDistance = 10;
 
-        // //讓線跟點淡入
-        // if (firstTime == 1) {
-        //     var order = [6, 3, 2, 4, 0, 7, 5, 1];
-        //     for (var i = 0; i < 8; i++) {
-        //         d3.select(".historylines" + order[i]).transition().duration(500).delay(300 * i).style("opacity", function () {
-        //             return i == 0 ? 1 : 0.2;
-        //         });
-        //         for (var j = 0; j < data.length; ++j) {
-        //             d3.selectAll(".dots" + j)
-        //                 .filter(".onLine" + order[i])
-        //                 .transition()
-        //                 .duration(500)
-        //                 .delay(300 * i)
-        //                 .style("opacity", function () {
-        //                     return i == 0 ? 1 : 0.2;
-        //                 });
-        //         }
-        //     }
-        // }
-
         // 輔助文字
         var usageText = unemployedSvg.append("text")
             .attr("x", containerWidth / 2)
             .attr("y", function () {
-                return (0.5 * (scaleY(data[2].senior)-scaleY(data[2].college)) ) + scaleY(data[2].college) + linechartMargin.top;
+                return (0.5 * (scaleY(data[2].senior) - scaleY(data[2].college))) + scaleY(data[2].college) + linechartMargin.top;
             })
             .attr("text-anchor", "middle")
             .text(function () {
-                if (containerWidth > 1024)
+                if (containerWidth > 1366)
                     return "將滑鼠移至折線圖之圓點，可在左上角方框觀看其他年份資訊！";
                 else return "點選圓點可觀看該年資訊！";
             })
@@ -661,7 +641,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                         .attr("width", checkboxWidth)
                         .attr("height", checkboxHeight)
                         .append("xhtml:body")
-                        .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + " checked><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
+                        .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + "><label for=" + all_type[k] + ">" + "<span class=\"checkboxtext\">" + all_type2[k] + "</span>" + "</label></form>")                        
                         .on("click", update_line);
                 } else {
                     infoSvg.append("foreignObject")
@@ -670,10 +650,15 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                         .attr("width", checkboxWidth)
                         .attr("height", checkboxHeight)
                         .append("xhtml:body")
-                        .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + "><label for=" + all_type[k] + ">" + all_type2[k] + "</label></form>")
+                        .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + "><label for=" + all_type[k] + ">" + "<span class=\"checkboxtext\">" + all_type2[k] + "</span>" + "</label></form>")                        
                         .on("click", update_line);
                 }
             }
+            var checkboxText = document.getElementsByClassName('checkboxtext');
+            for (var i = 0; i < checkboxText.length; i++) {
+                checkboxText[i].style.fontSize = 20;
+            }
+
         } else {
             if (sizeIsM) {
                 legendX = infoWidth + 11 + linechartMargin.left;
@@ -738,9 +723,11 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                         .on("click", update_line);
                 }
             }
+            var checkboxText = document.getElementsByClassName('checkboxtext');
+            for (var i = 0; i < checkboxText.length; i++) {
+                checkboxText[i].style.fontSize = 14;
+            }
         }
-
-
 
         function update_line() {
             for (var i = 0; i < 8; i++) {

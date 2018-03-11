@@ -20,9 +20,9 @@ d3.csv("./data/yearGroup.csv", function (error, yearGroupData) {
         var axisTextSize4 = 20;
         // console.log(yearGroupContainerWidth);
         // console.log(yearGroupChartWidth/24);
-        axisTextSize4 = (yearGroupChartWidth / 24) > 20 ? 20 : (yearGroupChartWidth / 24);
-        if ((yearGroupChartWidth / 24) > 12 && (yearGroupChartWidth / 24) <= 17) {
-            axisTextSize4 = 12;
+        axisTextSize4 = (yearGroupChartWidth / 22) > 20 ? 20 : (yearGroupChartWidth / 22);
+        if ((yearGroupChartWidth / 22) > 13 && (yearGroupChartWidth / 22) <= 17) {
+            axisTextSize4 = 13;
         }
         // console.log(axisTextSize4);
 
