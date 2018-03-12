@@ -42,7 +42,8 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
     // 
     function draw() {
         firstTime++;
-        var sizeIsL = 0,
+        var sizeIsXL = 0,
+            sizeIsL = 0,
             sizeIsM = 0,
             sizeIsS = 0,
             sizeIsXS = 0,
@@ -65,7 +66,11 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
             left: 50
         };
 
-        if (containerWidth >= 1250) {
+
+        if (containerWidth >= 1600) {
+            infoWidth = 250;
+            sizeIsXL = 1;
+        } else if ( containerWidth < 1600 && containerWidth >= 1250) {
             infoWidth = 250;
             sizeIsL = 1;
         } else if ((containerWidth < 1250) && (containerWidth >= 768)) {
@@ -604,7 +609,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                 .attr('font-family', 'Noto Sans TC');
         }
 
-        if (sizeIsL) {
+        if (sizeIsXL || sizeIsL) {
             // checkbox 旁邊的色條
             var legend = infoSvg.selectAll('.legend')
                 .data(all_type2)
@@ -641,7 +646,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                         .attr("width", checkboxWidth)
                         .attr("height", checkboxHeight)
                         .append("xhtml:body")
-                        .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + "><label for=" + all_type[k] + ">" + "<span class=\"checkboxtext\">" + all_type2[k] + "</span>" + "</label></form>")                        
+                        .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + "><label for=" + all_type[k] + ">" + "<span class=\"checkboxtext\">" + all_type2[k] + "</span>" + "</label></form>")
                         .on("click", update_line);
                 } else {
                     infoSvg.append("foreignObject")
@@ -650,14 +655,22 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                         .attr("width", checkboxWidth)
                         .attr("height", checkboxHeight)
                         .append("xhtml:body")
-                        .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + "><label for=" + all_type[k] + ">" + "<span class=\"checkboxtext\">" + all_type2[k] + "</span>" + "</label></form>")                        
+                        .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + "><label for=" + all_type[k] + ">" + "<span class=\"checkboxtext\">" + all_type2[k] + "</span>" + "</label></form>")
                         .on("click", update_line);
                 }
             }
             var checkboxText = document.getElementsByClassName('checkboxtext');
-            for (var i = 0; i < checkboxText.length; i++) {
-                checkboxText[i].style.fontSize = 20;
+            if(sizeIsXL){
+                for (var i = 0; i < checkboxText.length; i++) {
+                    checkboxText[i].style.fontSize = 20;
+                }
             }
+            else{
+                for (var i = 0; i < checkboxText.length; i++) {
+                    checkboxText[i].style.fontSize = 15;
+                }
+            }
+            
 
         } else {
             if (sizeIsM) {
