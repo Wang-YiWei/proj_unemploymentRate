@@ -646,7 +646,7 @@ d3.csv("./data/unemployment_rate.csv", function (data) {
                         .attr("width", checkboxWidth)
                         .attr("height", checkboxHeight)
                         .append("xhtml:body")
-                        .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + "><label for=" + all_type[k] + ">" + "<span class=\"checkboxtext\">" + all_type2[k] + "</span>" + "</label></form>")
+                        .html("<form><input type=checkbox id=" + all_type[k] + "name=education value=" + all_type[k] + " checked><label for=" + all_type[k] + ">" + "<span class=\"checkboxtext\">" + all_type2[k] + "</span>" + "</label></form>")
                         .on("click", update_line);
                 } else {
                     infoSvg.append("foreignObject")
