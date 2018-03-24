@@ -1,6 +1,6 @@
 # proj_unemploymentRate
 
-Visualize the unemployed rate of college students in taiwan and analyze the reason.
+Visualize the unemployed rate of college students in Taiwan and analyze the reason.
 
 ### Data
 - [政府資料開放平台](https://data.gov.tw/dataset/32741)
